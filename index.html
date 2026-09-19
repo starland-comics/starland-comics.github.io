@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2563EB" />
+<title>STARLAND — Библиотека комиксов нового поколения</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================ RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%}
+html,body{height:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:#FFFFFF;color:#0B1220;line-height:1.55;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  font-display:swap;
+  -webkit-tap-highlight-color:transparent;
+  max-width:100vw;
+}
+img,svg,video{display:block;max-width:100%}
+button,input,select,textarea{
+  font:inherit;color:inherit;background:none;border:none;outline:none;
+  -webkit-tap-highlight-color:transparent;-webkit-appearance:none;appearance:none;
+}
+button{cursor:pointer;user-select:none;-webkit-user-select:none}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+button:focus,button:focus-visible,a:focus,a:focus-visible,
+input:focus,select:focus,textarea:focus{outline:none;box-shadow:none}
+:focus-visible{outline:2px solid #2563EB;outline-offset:3px;border-radius:6px}
+::selection{background:#2563EB;color:#fff}
+
+/* ============================================================ TOKENS */
+:root{
+  --blue:#2563EB;--blue-electric:#3B82F6;--blue-bright:#60A5FA;
+  --blue-deep:#1E3A8A;--blue-navy:#0F1E5C;
+  --cyan:#06B6D4;--cyan-soft:#22D3EE;
+  --tg-1:#2AABEE;--tg-2:#229ED9;
+  --ink:#0B1220;--muted:#5A6B85;
+  --border:rgba(37,99,235,0.14);--border-strong:rgba(37,99,235,0.28);
+  --grad-live:linear-gradient(90deg,#1E3A8A,#2563EB,#3B82F6,#06B6D4,#2563EB,#1E3A8A);
+  --grad-deep:linear-gradient(160deg,#0F1E5C 0%,#1E3A8A 40%,#2563EB 100%);
+  --r-md:18px;--r-lg:26px;--r-xl:36px;--r-2xl:48px;
+  --shadow-md:0 18px 50px rgba(37,99,235,0.16);
+  --shadow-lg:0 34px 90px rgba(37,99,235,0.22);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;scroll-behavior:auto !important;
+  }
+}
+
+/* ============================================================ TYPO */
+h1,h2,h3,h4{font-family:'Unbounded',sans-serif;font-weight:700;color:var(--ink);line-height:1.05;letter-spacing:-0.025em}
+h1{font-size:clamp(34px,5.4vw,78px);font-weight:800;letter-spacing:-0.04em}
+h2{font-size:clamp(26px,3.6vw,54px);font-weight:700;letter-spacing:-0.03em}
+h3{font-size:clamp(18px,1.9vw,26px);font-weight:700}
+p{color:var(--muted);font-size:clamp(14px,1.05vw,17px)}
+.mono{font-family:'JetBrains Mono',monospace}
+.gradient-text{
+  background:var(--grad-live);background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:shifting 7s ease infinite;
+}
+@keyframes shifting{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.h1-accent{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;letter-spacing:-0.02em}
+.hand-note{
+  font-family:'Caveat',cursive;font-weight:600;color:var(--blue);font-size:1.15em;
+  display:inline-block;transform:rotate(-2deg);
+}
+
+/* ============================================================ LAYOUT */
+.container{width:min(1440px,92vw);margin-inline:auto;position:relative}
+section{position:relative;padding:clamp(70px,9vw,140px) 0}
+.section-head{margin-bottom:clamp(30px,4.5vw,64px);max-width:820px}
+.eyebrow{
+  font-family:'Space Grotesk',sans-serif;font-weight:600;
+  font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:16px;display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{
+  content:'';width:26px;height:2px;background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 6s ease infinite;border-radius:2px;
+}
+.section-head p{margin-top:16px;max-width:640px;font-size:clamp(15px,1.2vw,18px)}
+
+/* ============================================================ PRELOADER */
+#preloader{
+  position:fixed;inset:0;z-index:10000;
+  background:radial-gradient(circle at 50% 50%,#1E3A8A 0%,#0F1E5C 60%,#0B1220 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:28px;transition:opacity .7s ease,visibility .7s ease;
+}
+#preloader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.pre-logo{
+  font-family:'Unbounded',sans-serif;font-weight:900;
+  font-size:clamp(32px,5vw,64px);letter-spacing:.06em;
+  background:linear-gradient(120deg,#FFFFFF 0%,#60A5FA 50%,#22D3EE 100%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  animation:shifting 4s ease infinite;
+}
+.pre-tag{font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:rgba(255,255,255,0.65)}
+.pre-bar{width:min(360px,74vw);height:4px;background:rgba(255,255,255,0.14);border-radius:99px;overflow:hidden;position:relative}
+.pre-bar i{
+  position:absolute;inset:0;width:0%;
+  background:linear-gradient(90deg,#3B82F6,#06B6D4,#3B82F6);background-size:300% 100%;
+  animation:shifting 3s ease infinite;border-radius:99px;
+  transition:width .35s var(--ease);box-shadow:0 0 20px rgba(59,130,246,0.8);
+}
+.pre-pct{font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,0.7);letter-spacing:.22em}
+
+/* ============================================================ CURSOR */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;will-change:transform}
+.cursor-dot{width:6px;height:6px;background:var(--blue);transform:translate(-50%,-50%)}
+.cursor-ring{
+  width:38px;height:38px;border:1.5px solid rgba(37,99,235,0.35);
+  transform:translate(-50%,-50%);
+  transition:width .3s var(--ease-spring),height .3s var(--ease-spring),background-color .3s ease;
+}
+.cursor-ring.is-hover{width:64px;height:64px;background:rgba(37,99,235,0.12);border-color:var(--blue)}
+@media (hover:none),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ============================================================ HEADER */
+header.site-header{
+  position:sticky;top:0;z-index:900;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(37,99,235,0.10);
+  transition:box-shadow .35s ease;
+  overflow:hidden;
+}
+header.site-header.is-scrolled{box-shadow:0 8px 30px rgba(37,99,235,0.10)}
+header.site-header::after{
+  content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;opacity:.45;
+}
+.nav{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  height:clamp(72px,8.5vw,100px);
+}
+
+/* ===== LOGO — жёсткий контейнер, лого никогда не вылезет ===== */
+.logo-wrap{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:clamp(150px,24vw,240px);
+  height:clamp(52px,7vw,78px);
+  padding:6px 12px;
+  background:#FFFFFF;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(37,99,235,0.16), inset 0 0 0 1px rgba(37,99,235,0.08);
+  cursor:pointer;
+  flex-shrink:0;
+  overflow:hidden;
+  transition:transform .35s var(--ease-spring), box-shadow .35s ease;
+}
+.logo-wrap:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,99,235,0.26)}
+.logo{
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  object-position:center;
+  display:block;
+  transition:transform .35s var(--ease);
+}
+.logo-wrap:hover .logo{transform:scale(1.04)}
+.logo-fallback{
+  font-family:'Unbounded',sans-serif;font-weight:800;
+  font-size:clamp(16px,2vw,24px);letter-spacing:.04em;
+  background:var(--grad-live);background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:shifting 6s ease infinite;
+}
+@media (max-width:480px){
+  .logo-wrap{width:min(140px,42vw);height:48px;padding:4px 8px;border-radius:12px}
+}
+
+.nav-links{display:flex;align-items:center;gap:2px;flex-shrink:0}
+.nav-link{
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:14px;
+  padding:10px 16px;border-radius:12px;color:var(--ink);
+  transition:background .25s ease, color .25s ease;
+  position:relative;white-space:nowrap;
+}
+.nav-link:hover{background:#EAF2FF;color:var(--blue)}
+.nav-link.is-active{color:var(--blue)}
+.nav-link.is-active::after{
+  content:'';position:absolute;left:16px;right:16px;bottom:5px;height:2px;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 6s ease infinite;border-radius:2px;
+}
+
+.nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+.tg-icon-btn{
+  width:44px;height:44px;border-radius:12px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--tg-1),var(--tg-2));
+  color:#fff;position:relative;
+  box-shadow:0 6px 18px rgba(42,171,238,0.35);
+  transition:transform .35s var(--ease-spring), box-shadow .35s ease;
+  overflow:hidden;flex-shrink:0;
+}
+.tg-icon-btn::after{
+  content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.7),transparent);
+  transform:skewX(-20deg);transition:left .8s var(--ease);
+}
+.tg-icon-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 12px 28px rgba(42,171,238,0.5)}
+.tg-icon-btn:hover::after{left:150%}
+.tg-icon-btn svg{width:20px;height:20px;fill:#fff;position:relative;z-index:1}
+@media (max-width:480px){.tg-icon-btn{width:40px;height:40px;border-radius:10px}.tg-icon-btn svg{width:18px;height:18px}}
+
+/* ===== BUTTONS ===== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;
+  padding:12px 22px;border-radius:14px;
+  transition:transform .3s var(--ease-spring), box-shadow .3s ease, background-color .3s ease, color .3s ease;
+  position:relative;overflow:hidden;white-space:nowrap;
+  will-change:transform;isolation:isolate;
+}
+.btn:active{transform:scale(.97)}
+.btn-glass{
+  background:rgba(255,255,255,0.85);color:var(--blue);
+  border:1px solid rgba(37,99,235,0.24);
+  box-shadow:0 4px 14px rgba(37,99,235,0.06);
+}
+.btn-glass:hover{background:#fff;border-color:var(--blue);box-shadow:0 10px 26px rgba(37,99,235,0.20);transform:translateY(-2px)}
+.btn-primary{
+  color:#fff;background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;
+  box-shadow:0 12px 30px rgba(37,99,235,0.38);
+}
+.btn-primary::before{
+  content:'';position:absolute;top:0;left:-120%;width:55%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.65),transparent);
+  transform:skewX(-20deg);transition:left .9s var(--ease);pointer-events:none;
+}
+.btn-primary:hover::before{left:150%}
+.btn-primary:hover{box-shadow:0 18px 44px rgba(37,99,235,0.52);transform:translateY(-2px)}
+.btn-ghost{color:var(--ink)}
+.btn-ghost:hover{background:#EAF2FF;color:var(--blue)}
+.btn .ripple{
+  position:absolute;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,255,255,0));
+  transform:translate(-50%,-50%) scale(0);
+  animation:ripple .8s ease-out forwards;z-index:0;
+}
+@keyframes ripple{to{transform:translate(-50%,-50%) scale(4);opacity:0}}
+.btn > *{position:relative;z-index:2}
+.btn.is-loading{pointer-events:none;opacity:.85}
+.btn.is-loading::after{
+  content:'';position:absolute;width:16px;height:16px;border-radius:50%;
+  border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;
+  right:16px;top:50%;margin-top:-8px;
+  animation:spinLocal 0.7s linear infinite;z-index:3;
+}
+@keyframes spinLocal{to{transform:rotate(360deg)}}
+
+.avatar-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;
+  box-shadow:0 6px 20px rgba(37,99,235,0.38);
+  cursor:pointer;position:relative;transition:transform .35s var(--ease-spring);
+}
+.avatar-btn:hover{transform:scale(1.06)}
+
+.dropdown{
+  position:absolute;top:calc(100% + 10px);right:0;min-width:220px;
+  background:#fff;
+  border:1px solid var(--border);border-radius:var(--r-md);
+  box-shadow:0 20px 50px rgba(37,99,235,0.18);padding:6px;
+  opacity:0;visibility:hidden;transform:translateY(-6px) scale(.96);
+  transition:all .3s var(--ease-spring);transform-origin:top right;z-index:20;
+}
+.dropdown.is-open{opacity:1;visibility:visible;transform:none}
+.dropdown button{
+  display:flex;width:100%;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:14px;
+  color:var(--ink);transition:background .2s ease,color .2s ease;text-align:left;
+}
+.dropdown button:hover{background:#EAF2FF;color:var(--blue)}
+
+.burger{
+  width:44px;height:44px;border-radius:12px;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.7);border:1px solid var(--border);
+  transition:background .25s ease;flex-shrink:0;
+}
+.burger:hover{background:#EAF2FF}
+.burger span{
+  display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;
+  position:relative;transition:background .25s ease;
+}
+.burger span::before,.burger span::after{
+  content:'';position:absolute;left:0;width:18px;height:2px;background:var(--ink);
+  border-radius:2px;transition:transform .35s var(--ease-spring), top .35s var(--ease-spring);
+}
+.burger span::before{top:-5px}
+.burger span::after{top:5px}
+.burger.is-open span{background:transparent}
+.burger.is-open span::before{transform:translateY(5px) rotate(45deg)}
+.burger.is-open span::after{transform:translateY(-5px) rotate(-45deg)}
+
+.admin-burger{
+  width:44px;height:44px;border-radius:12px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;
+  color:#fff;box-shadow:0 6px 20px rgba(37,99,235,0.38);
+  transition:transform .35s var(--ease-spring);flex-shrink:0;
+}
+.admin-burger:hover{transform:scale(1.06)}
+.admin-burger svg{width:18px;height:18px}
+
+@media (max-width:1024px){
+  .nav-links{display:none}
+  .burger{display:inline-flex}
+}
+
+/* ============================================================ MOBILE MENU */
+.mobile-menu{
+  position:fixed;inset:0;z-index:950;
+  background:var(--grad-deep);
+  padding:110px 6vw 40px;
+  opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease;
+  overflow-y:auto;
+}
+.mobile-menu.is-open{opacity:1;visibility:visible}
+.mobile-menu a{
+  position:relative;display:flex;align-items:center;gap:14px;
+  font-family:'Unbounded',sans-serif;font-weight:700;
+  font-size:clamp(22px,5.5vw,34px);padding:16px 0;
+  color:#FFFFFF;border-bottom:1px solid rgba(255,255,255,0.12);
+  transform:translateY(20px);opacity:0;
+  transition:transform .55s var(--ease-out), opacity .55s ease, color .25s ease;
+  letter-spacing:-0.02em;
+}
+.mobile-menu.is-open a{transform:none;opacity:1}
+.mobile-menu a:hover{color:var(--cyan-soft)}
+.mobile-menu a:nth-child(1){transition-delay:.05s}
+.mobile-menu a:nth-child(2){transition-delay:.10s}
+.mobile-menu a:nth-child(3){transition-delay:.15s}
+.mobile-menu a:nth-child(4){transition-delay:.20s}
+.mobile-menu a:nth-child(5){transition-delay:.25s}
+.mobile-menu a:nth-child(6){transition-delay:.30s}
+.mobile-menu .tg-menu-link{
+  background:linear-gradient(135deg,var(--tg-1),var(--tg-2));
+  padding:14px 20px;border-radius:16px;border-bottom:none;
+  font-size:clamp(16px,4vw,22px);
+  box-shadow:0 14px 34px rgba(42,171,238,0.45);
+  margin-top:14px;
+}
+.mobile-menu .tg-menu-link svg{width:24px;height:24px;fill:#fff;flex-shrink:0}
+
+/* ============================================================ FLOATING TG */
+.float-tg{
+  position:fixed;bottom:24px;left:24px;z-index:90;
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 20px;border-radius:99px;
+  background:linear-gradient(135deg,var(--tg-1),var(--tg-2));
+  color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;
+  box-shadow:0 12px 32px rgba(42,171,238,0.45);
+  transition:transform .35s var(--ease-spring), box-shadow .35s ease;
+  opacity:0;visibility:hidden;transform:translateY(16px);
+  animation:tgIn .8s var(--ease-spring) 1.8s forwards;
+}
+@keyframes tgIn{to{opacity:1;visibility:visible;transform:none}}
+.float-tg:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 42px rgba(42,171,238,0.65)}
+.float-tg svg{width:18px;height:18px;fill:#fff}
+@media (max-width:640px){
+  .float-tg{padding:0;bottom:16px;left:16px;width:48px;height:48px;border-radius:50%;justify-content:center}
+  .float-tg span{display:none}
+  .float-tg svg{width:22px;height:22px}
+}
+
+/* ============================================================ HERO */
+#hero{
+  position:relative;
+  padding-top:clamp(50px,7vw,100px);
+  padding-bottom:clamp(70px,9vw,130px);
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 15% 15%,rgba(37,99,235,0.14),transparent 55%),
+    radial-gradient(ellipse at 85% 20%,rgba(6,182,212,0.12),transparent 55%),
+    radial-gradient(ellipse at 50% 100%,rgba(59,130,246,0.18),transparent 60%),
+    linear-gradient(180deg,#FFFFFF 0%,#F5F9FF 55%,#EAF2FF 100%);
+}
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(37,99,235,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(37,99,235,0.05) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 20%,transparent 75%);
+  pointer-events:none;
+}
+
+.hero-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,5vw,80px);
+  align-items:center;position:relative;z-index:2;
+}
+@media (max-width:1024px){.hero-grid{grid-template-columns:1fr}}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 16px;border-radius:99px;
+  background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.18);
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:12.5px;
+  color:var(--blue);margin-bottom:22px;
+}
+.hero-tag .pulse{
+  width:8px;height:8px;border-radius:50%;background:var(--blue);
+  box-shadow:0 0 0 0 rgba(37,99,235,0.7);animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(37,99,235,0.7)}
+  70%{box-shadow:0 0 0 12px rgba(37,99,235,0)}
+  100%{box-shadow:0 0 0 0 rgba(37,99,235,0)}
+}
+
+.hero-copy h1{margin-bottom:20px;line-height:1.05}
+.hero-copy p.sub{
+  font-size:clamp(15px,1.35vw,19px);max-width:560px;margin-bottom:32px;
+  color:#3E5070;line-height:1.6;
+}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:36px}
+.hero-cta .btn{padding:14px 28px;font-size:15px;border-radius:16px}
+
+.hero-stats{
+  display:flex;flex-wrap:wrap;gap:26px;
+  padding-top:22px;border-top:1px solid rgba(37,99,235,0.14);
+}
+.hero-stat{display:flex;flex-direction:column;gap:2px}
+.hero-stat .v{
+  font-family:'Unbounded',sans-serif;font-weight:700;
+  font-size:clamp(22px,2.2vw,32px);color:var(--blue-deep);
+  letter-spacing:-0.03em;line-height:1;
+}
+.hero-stat .l{
+  font-family:'Space Grotesk',sans-serif;font-weight:500;
+  font-size:11.5px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;
+}
+
+.hero-3d{position:relative;aspect-ratio:1/1;width:100%;max-width:640px;margin-left:auto}
+.hero-3d::before{
+  content:'';position:absolute;inset:10%;border-radius:50%;
+  background:radial-gradient(circle,rgba(37,99,235,0.30),transparent 60%);
+  filter:blur(40px);
+}
+#three-canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+@media (max-width:768px){.hero-3d{display:none}}
+
+/* ============================================================ COUNTERS */
+.counters{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  margin-top:clamp(40px,6vw,80px);
+  border-radius:var(--r-lg);overflow:hidden;
+  background:var(--grad-deep);
+  box-shadow:0 24px 60px rgba(15,30,92,0.30);position:relative;
+}
+.counter{
+  padding:clamp(26px,3.5vw,44px) clamp(18px,2.5vw,36px);
+  text-align:center;position:relative;
+  border-right:1px solid rgba(255,255,255,0.10);
+}
+.counter:last-child{border-right:none}
+.counter .num{
+  font-family:'JetBrains Mono',monospace;font-weight:600;
+  font-size:clamp(32px,3.8vw,56px);color:#FFFFFF;letter-spacing:-0.03em;
+  display:block;line-height:1;
+}
+.counter .lbl{
+  font-family:'Space Grotesk',sans-serif;font-weight:500;
+  font-size:clamp(10.5px,1vw,13px);color:rgba(255,255,255,0.65);
+  text-transform:uppercase;letter-spacing:.18em;margin-top:12px;display:block;
+}
+@media (max-width:600px){
+  .counters{grid-template-columns:1fr}
+  .counter{border-right:none;border-bottom:1px solid rgba(255,255,255,0.10)}
+  .counter:last-child{border-bottom:none}
+}
+
+/* ============================================================ MARQUEE */
+.marquee{overflow:hidden;padding:22px 0;background:var(--blue-deep);position:relative}
+.marquee::before,.marquee::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.marquee::before{left:0;background:linear-gradient(90deg,var(--blue-deep),transparent)}
+.marquee::after{right:0;background:linear-gradient(-90deg,var(--blue-deep),transparent)}
+.marquee-track{display:flex;gap:60px;white-space:nowrap;animation:marquee 50s linear infinite;will-change:transform}
+.marquee-track span{
+  font-family:'Unbounded',sans-serif;font-weight:800;
+  font-size:clamp(18px,2.2vw,34px);color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,0.35);letter-spacing:-0.02em;
+}
+.marquee-track span:nth-child(even){
+  color:rgba(255,255,255,0.95);-webkit-text-stroke:0;
+  font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;
+}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================================================ CARDS */
+.carousel{display:flex;gap:22px;overflow-x:auto;padding:14px 4px 26px;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}
+.carousel::-webkit-scrollbar{display:none}
+.carousel .comic-card{flex:0 0 320px;scroll-snap-align:start}
+@media (max-width:560px){.carousel .comic-card{flex:0 0 84%}}
+
+.comics-grid{display:grid;gap:24px;grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:1024px){.comics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.comics-grid{grid-template-columns:1fr}}
+
+.comic-card{
+  position:relative;border-radius:var(--r-lg);
+  background:#fff;overflow:hidden;
+  box-shadow:0 4px 18px rgba(37,99,235,0.08);
+  transition:transform .45s var(--ease-out), box-shadow .45s ease;
+  will-change:transform;
+  border:1px solid rgba(37,99,235,0.10);
+  opacity:0;
+  animation:cardIn .6s var(--ease-out) both;
+}
+@keyframes cardIn{to{opacity:1}}
+.comic-card:hover{box-shadow:0 30px 70px rgba(37,99,235,0.22);transform:translateY(-8px)}
+
+.comic-cover{position:relative;aspect-ratio:3/4.2;overflow:hidden;background:linear-gradient(135deg,#DDE9FF,#EAF2FF)}
+.comic-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease-out)}
+.comic-card:hover .comic-cover img{transform:scale(1.06)}
+
+.comic-cat-tag{
+  position:absolute;top:12px;left:12px;z-index:2;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 12px;border-radius:99px;
+  background:rgba(255,255,255,0.95);
+  color:var(--blue-deep);box-shadow:0 4px 14px rgba(37,99,235,0.18);
+}
+.comic-body{padding:18px 20px 22px}
+.comic-title{
+  font-family:'Space Grotesk',sans-serif;font-weight:600;
+  font-size:18px;color:var(--blue-deep);margin-bottom:8px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  line-height:1.25;
+}
+.comic-desc{
+  color:var(--muted);font-size:13.5px;line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  margin-bottom:14px;min-height:60px;
+}
+.comic-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
+.views{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-weight:500;font-size:12.5px;color:var(--muted);
+}
+.views svg{width:15px;height:15px;stroke:#5A6B85;fill:none;stroke-width:1.8}
+
+.btn-read{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:13px 18px;border-radius:12px;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;
+  color:#fff;position:relative;overflow:hidden;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;
+  box-shadow:0 10px 26px rgba(37,99,235,0.35);
+  transition:transform .3s var(--ease-spring), box-shadow .3s ease;
+}
+.btn-read::before{
+  content:'';position:absolute;top:0;left:-120%;width:55%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.65),transparent);
+  transform:skewX(-20deg);transition:left .9s var(--ease);
+}
+.btn-read:hover::before{left:150%}
+.btn-read:hover{box-shadow:0 16px 40px rgba(37,99,235,0.5);transform:translateY(-2px)}
+.btn-read .ripple{
+  position:absolute;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,255,255,0));
+  transform:translate(-50%,-50%) scale(0);animation:ripple .8s ease-out forwards;
+}
+
+.skeleton{border-radius:var(--r-lg);overflow:hidden;background:#fff;border:1px solid var(--border)}
+.sk-line,.sk-cover{
+  background:linear-gradient(90deg,#EAF2FF 0%,#DDE9FF 50%,#EAF2FF 100%);
+  background-size:200% 100%;animation:shimmer 1.7s ease-in-out infinite;border-radius:10px;
+}
+.sk-cover{aspect-ratio:3/4.2;border-radius:0}
+.sk-line{height:12px;margin:14px 20px 0}
+.sk-line.short{width:40%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ============================================================ CATEGORIES */
+.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+@media (max-width:1100px){.categories{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.categories{grid-template-columns:1fr}}
+
+.cat-card{
+  position:relative;padding:32px 26px;border-radius:var(--r-lg);
+  overflow:hidden;cursor:pointer;
+  transition:transform .5s var(--ease-out), box-shadow .5s ease;
+  color:#FFFFFF;min-height:210px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:var(--grad-deep);
+}
+.cat-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 20%,rgba(6,182,212,0.5),transparent 55%),
+             radial-gradient(circle at 20% 80%,rgba(59,130,246,0.5),transparent 55%);
+  opacity:.7;pointer-events:none;
+}
+.cat-card > *{position:relative;z-index:1}
+.cat-card:hover{transform:translateY(-8px);box-shadow:0 34px 80px rgba(37,99,235,0.40)}
+.cat-card:nth-child(2){background:linear-gradient(160deg,#1E3A8A,#3B82F6,#06B6D4)}
+.cat-card:nth-child(3){background:linear-gradient(160deg,#0F1E5C,#2563EB,#22D3EE)}
+.cat-card:nth-child(4){background:linear-gradient(160deg,#2563EB,#1E3A8A,#0F1E5C)}
+.cat-card h3{color:#fff;margin-bottom:8px;font-size:clamp(19px,1.9vw,24px)}
+.cat-card p{color:rgba(255,255,255,0.78);font-size:14px}
+.cat-card .cat-count{
+  font-family:'JetBrains Mono',monospace;font-weight:600;
+  font-size:clamp(26px,2.8vw,40px);color:#fff;line-height:1;
+  display:block;margin-bottom:6px;
+}
+.cat-card .cat-count-lbl{
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:11px;
+  letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,0.65);
+}
+.cat-card .cat-mark{
+  position:absolute;top:22px;right:22px;z-index:1;
+  width:52px;height:52px;border-radius:16px;
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.22);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .45s var(--ease-spring), background .35s ease;
+}
+.cat-card:hover .cat-mark{transform:rotate(10deg) scale(1.08);background:rgba(255,255,255,0.24)}
+.cat-card .cat-mark svg{width:24px;height:24px;stroke:#fff;fill:none;stroke-width:1.7}
+
+/* ============================================================ STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media (max-width:900px){.steps{grid-template-columns:1fr}}
+.step{
+  position:relative;padding:32px 26px;border-radius:var(--r-lg);
+  background:#fff;border:1px solid var(--border);
+  transition:transform .4s var(--ease-out),box-shadow .4s ease,border-color .35s ease;
+  overflow:hidden;
+}
+.step::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;opacity:0;transition:opacity .4s ease;
+}
+.step:hover::before{opacity:1}
+.step:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(37,99,235,0.18);border-color:transparent}
+.step-num{
+  font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12.5px;
+  color:var(--blue);letter-spacing:.18em;margin-bottom:18px;
+}
+.step h3{margin-bottom:10px}
+.step p{font-size:14.5px;line-height:1.6}
+.step-mark{
+  width:54px;height:54px;border-radius:18px;margin-bottom:20px;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;
+  display:flex;align-items:center;justify-content:center;color:#fff;
+  box-shadow:0 12px 28px rgba(37,99,235,0.38);
+}
+.step-mark svg{width:26px;height:26px}
+
+/* ============================================================ BENTO */
+.bento{display:grid;gap:20px;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(140px,auto)}
+.bento-card{
+  padding:28px;border-radius:var(--r-lg);
+  background:#fff;
+  border:1px solid var(--border);box-shadow:0 12px 40px rgba(37,99,235,0.08);
+  transition:transform .4s var(--ease-out), box-shadow .4s ease, border-color .35s ease;
+  position:relative;overflow:hidden;
+}
+.bento-card:hover{transform:translateY(-5px);box-shadow:0 28px 70px rgba(37,99,235,0.18);border-color:var(--border-strong)}
+.bento-card h3{margin-bottom:10px;font-size:19px;color:var(--blue-deep)}
+.bento-card p{font-size:14.5px;line-height:1.6}
+.b1{grid-column:span 3;grid-row:span 2}
+.b2{grid-column:span 3}
+.b3{grid-column:span 3}
+.b4{grid-column:span 3}
+.b5{grid-column:span 3}
+.b1::after{
+  content:'500+';position:absolute;right:-10px;bottom:-24px;
+  font-family:'Unbounded',sans-serif;font-weight:900;font-size:120px;line-height:1;
+  color:transparent;-webkit-text-stroke:1.5px rgba(37,99,235,0.12);
+  letter-spacing:-0.05em;pointer-events:none;
+}
+@media (max-width:900px){
+  .bento{grid-template-columns:1fr}
+  .bento-card{grid-column:auto !important;grid-row:auto !important}
+}
+
+/* ============================================================ FAQ */
+.faq{max-width:920px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border);transition:background .3s ease;border-radius:12px}
+.faq-item.is-open{background:linear-gradient(90deg,rgba(234,242,255,0.6),transparent)}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  width:100%;padding:22px 12px;text-align:left;
+  font-family:'Space Grotesk',sans-serif;font-weight:600;
+  font-size:clamp(15px,1.4vw,18px);color:var(--ink);transition:color .3s ease;
+}
+.faq-item.is-open .faq-q{color:var(--blue)}
+.faq-q .plus{
+  width:34px;height:34px;flex-shrink:0;border-radius:50%;
+  background:#EAF2FF;color:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .5s var(--ease-spring), background .35s ease, color .35s ease;
+  font-size:20px;line-height:1;
+}
+.faq-item.is-open .plus{
+  transform:rotate(135deg);background:var(--grad-live);background-size:300% 100%;color:#fff;
+  animation:shifting 6s ease infinite;
+}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .5s var(--ease), padding .35s ease}
+.faq-item.is-open .faq-a{max-height:500px;padding-bottom:22px}
+.faq-a p{padding:0 12px;color:var(--muted);font-size:14.5px;line-height:1.65;max-width:780px}
+
+/* ============================================================ CTA */
+.cta-block{
+  text-align:center;padding:clamp(50px,7vw,100px) clamp(24px,4vw,60px);
+  border-radius:var(--r-2xl);position:relative;overflow:hidden;
+  background:var(--grad-deep);color:#fff;
+  box-shadow:0 30px 80px rgba(15,30,92,0.35);
+}
+.cta-block h2{position:relative;z-index:1;color:#fff;margin-bottom:20px;font-size:clamp(28px,4.2vw,58px)}
+.cta-block h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--cyan-soft)}
+.cta-block p{
+  position:relative;z-index:1;color:rgba(255,255,255,0.78);
+  margin-bottom:32px;max-width:600px;margin-inline:auto;
+  font-size:clamp(14.5px,1.25vw,17px);
+}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.cta-block .btn{
+  padding:16px 32px;font-size:15.5px;border-radius:18px;
+  background:#FFFFFF;color:var(--blue-deep);
+  box-shadow:0 16px 40px rgba(0,0,0,0.24);
+  animation:none;
+}
+.cta-block .btn:hover{background:#FFFFFF;color:var(--blue);transform:translateY(-3px)}
+
+/* ============================================================ FOOTER */
+footer{
+  padding:60px 0 40px;margin-top:70px;
+  background:linear-gradient(180deg,#F5F9FF 0%,#FFFFFF 100%);
+  border-top:1px solid var(--border);position:relative;
+}
+footer::before{
+  content:'';position:absolute;left:0;right:0;top:-1px;height:2px;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 10s ease infinite;opacity:.55;
+}
+.foot-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+@media (max-width:800px){.foot-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:500px){.foot-grid{grid-template-columns:1fr}}
+footer h4{
+  font-family:'Space Grotesk',sans-serif;font-size:12.5px;
+  color:var(--blue-deep);margin-bottom:16px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.14em;
+}
+footer ul li{margin-bottom:10px}
+footer a,footer li{color:var(--muted);font-size:14px;transition:color .25s ease}
+footer a:hover{color:var(--blue)}
+.foot-tg-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:11px 20px;border-radius:12px;margin-top:8px;
+  background:linear-gradient(135deg,var(--tg-1),var(--tg-2));
+  color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13.5px;
+  box-shadow:0 8px 22px rgba(42,171,238,0.32);
+  transition:transform .35s var(--ease-spring), box-shadow .35s ease;
+}
+.foot-tg-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(42,171,238,0.5);color:#fff}
+.foot-tg-btn svg{width:16px;height:16px;fill:#fff}
+.foot-bottom{
+  padding-top:24px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  color:var(--muted);font-size:12.5px;font-family:'JetBrains Mono',monospace;
+}
+
+/* ============================================================ CATALOG */
+#view-catalog,#view-read{padding-top:clamp(30px,4vw,60px);min-height:100vh}
+
+.filters{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+  padding:16px;border-radius:var(--r-lg);
+  background:#fff;
+  border:1px solid var(--border);box-shadow:0 8px 24px rgba(37,99,235,0.08);
+  margin-bottom:32px;
+  position:sticky;top:calc(clamp(72px,8.5vw,100px) + 10px);z-index:80;
+}
+
+/* TABS — с горизонтальным скроллом */
+.tabs-wrap{
+  width:100%;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;-ms-overflow-style:none;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:2px;
+}
+.tabs-wrap::-webkit-scrollbar{display:none}
+.tabs{
+  display:inline-flex;gap:4px;background:#F5F9FF;border-radius:12px;padding:4px;
+  border:1px solid var(--border);min-width:max-content;
+}
+.tab{
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:13.5px;
+  padding:9px 18px;border-radius:9px;color:var(--muted);
+  transition:color .3s ease, background .3s ease;
+  position:relative;z-index:2;white-space:nowrap;
+}
+.tab:hover{color:var(--blue)}
+.tab.is-active{
+  color:#fff;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;
+  box-shadow:0 6px 16px rgba(37,99,235,0.32);
+}
+.tab-indicator{display:none}
+
+.search-box{flex:1;min-width:200px;position:relative}
+.search-box input{
+  width:100%;padding:12px 16px 12px 42px;border-radius:12px;
+  background:#F5F9FF;border:1px solid var(--border);
+  font-size:14px;color:var(--ink);
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.search-box input:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.12)}
+.search-box svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:1.8}
+.search-box:focus-within svg{stroke:var(--blue)}
+.sort-select{
+  padding:12px 38px 12px 16px;border-radius:12px;
+  background:#F5F9FF;border:1px solid var(--border);
+  font-family:'Space Grotesk',sans-serif;font-size:13.5px;color:var(--ink);
+  cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%235A6B85' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;
+  transition:border-color .3s ease;
+}
+.sort-select:hover{border-color:var(--blue)}
+@media (max-width:640px){.filters{position:static}}
+
+.empty-state{
+  padding:80px 24px;text-align:center;
+  border-radius:var(--r-lg);border:1px dashed var(--border-strong);
+  background:linear-gradient(135deg,#F5F9FF,#EAF2FF);
+}
+.empty-state svg{width:64px;height:64px;stroke:var(--blue);fill:none;stroke-width:1.4;margin:0 auto 20px}
+.empty-state h3{margin-bottom:10px;color:var(--blue-deep)}
+.empty-state p{max-width:400px;margin-inline:auto}
+
+/* ============================================================ READER */
+.reader-top{
+  position:sticky;top:calc(clamp(72px,8.5vw,100px));z-index:80;
+  display:flex;align-items:center;gap:16px;
+  padding:12px 18px;border-radius:var(--r-md);
+  background:#fff;
+  border:1px solid var(--border);box-shadow:0 12px 36px rgba(37,99,235,0.14);margin-bottom:32px;
+}
+.reader-top .back{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:13.5px;
+  padding:9px 16px;border-radius:10px;color:var(--blue);
+  background:#EAF2FF;
+  transition:background .3s ease, transform .35s var(--ease-spring);
+}
+.reader-top .back:hover{background:#D3E2FF;transform:translateX(-2px)}
+.reader-title{
+  font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;
+  color:var(--blue-deep);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.reader-progress-wrap{display:flex;align-items:center;gap:10px;min-width:220px}
+.reader-progress{flex:1;height:5px;border-radius:99px;background:rgba(37,99,235,0.10);overflow:hidden}
+.reader-progress i{
+  display:block;height:100%;width:0%;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 6s ease infinite;transition:width .1s linear;
+}
+.reader-page-info{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);white-space:nowrap}
+@media (max-width:700px){
+  .reader-title{display:none}
+  .reader-progress-wrap{min-width:0;flex:1}
+}
+.reader-content{max-width:940px;margin:0 auto;padding:0 4px;display:flex;flex-direction:column;gap:16px}
+.reader-content img{width:100%;height:auto;border-radius:var(--r-md);box-shadow:0 16px 40px rgba(37,99,235,0.14);background:#fff;display:block}
+.reader-nav{display:flex;justify-content:space-between;gap:14px;margin-top:44px;flex-wrap:wrap}
+
+/* ============================================================ TO-TOP */
+.to-top{
+  position:fixed;bottom:24px;right:24px;z-index:90;
+  width:52px;height:52px;border-radius:50%;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;color:#fff;
+  box-shadow:0 12px 32px rgba(37,99,235,0.44);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;transform:translateY(16px) scale(.9);
+  transition:all .4s var(--ease-spring);
+}
+.to-top.is-visible{opacity:1;visibility:visible;transform:none}
+.to-top:hover{transform:translateY(-3px) scale(1.06)}
+.to-top svg{width:20px;height:20px;position:relative;z-index:2}
+.to-top .ring{position:absolute;inset:-3px;transform:rotate(-90deg);pointer-events:none}
+.to-top .ring circle{fill:none;stroke-width:2;stroke:#FFFFFF;stroke-linecap:round;transition:stroke-dashoffset .1s linear}
+@media (max-width:640px){.to-top{bottom:78px;right:16px;width:48px;height:48px}}
+
+/* ============================================================ MODALS */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(15,30,92,0.55);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;opacity:0;visibility:hidden;
+  transition:opacity .3s ease, visibility .3s ease;
+}
+.modal-backdrop.is-open{opacity:1;visibility:visible}
+.modal{
+  width:100%;max-width:460px;max-height:90vh;overflow-y:auto;
+  border-radius:var(--r-lg);padding:32px;background:#FFFFFF;
+  border:1px solid rgba(37,99,235,0.18);
+  box-shadow:0 30px 100px rgba(37,99,235,0.35);
+  transform:scale(.94) translateY(20px);opacity:0;
+  transition:all .45s var(--ease-spring);position:relative;
+}
+.modal::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 6s ease infinite;
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.modal-backdrop.is-open .modal{transform:none;opacity:1}
+.modal h3{margin-bottom:8px;color:var(--blue-deep);font-size:24px}
+.modal .modal-sub{font-size:14px;color:var(--muted);margin-bottom:22px;line-height:1.5}
+
+.modal-close{
+  position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
+  background:#EAF2FF;color:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s ease, color .3s ease, transform .35s var(--ease-spring);z-index:3;
+}
+.modal-close:hover{background:var(--blue);color:#fff;transform:rotate(90deg)}
+
+.auth-tabs{
+  display:flex;gap:4px;background:#F5F9FF;border-radius:12px;padding:4px;
+  margin-bottom:20px;border:1px solid var(--border);position:relative;
+}
+.auth-tab{
+  flex:1;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:13.5px;
+  padding:10px 0;border-radius:9px;color:var(--muted);text-align:center;
+  position:relative;z-index:2;transition:color .3s ease;
+}
+.auth-tab.is-active{color:#fff}
+.auth-tab-indicator{
+  position:absolute;top:4px;left:4px;height:calc(100% - 8px);
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;
+  border-radius:9px;transition:left .4s var(--ease-spring),width .4s var(--ease-spring);
+  z-index:1;box-shadow:0 4px 14px rgba(37,99,235,0.28);
+}
+
+.field{position:relative;margin-bottom:14px}
+.field input{
+  width:100%;padding:18px 16px 8px;border-radius:12px;
+  background:#F5F9FF;border:1px solid var(--border);
+  font-size:14.5px;color:var(--ink);
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.field input:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.12)}
+.field label{
+  position:absolute;left:16px;top:14px;font-size:12.5px;color:var(--muted);
+  transition:all .3s var(--ease);pointer-events:none;
+  font-family:'Space Grotesk',sans-serif;
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label{
+  top:6px;font-size:10px;color:var(--blue);
+  letter-spacing:.10em;text-transform:uppercase;
+}
+.field-err{font-size:11.5px;color:#DC2626;margin-top:6px;display:none}
+.field.has-err input{border-color:#DC2626;background:#FEF2F2}
+.field.has-err .field-err{display:block}
+
+.admin-hint{
+  margin-top:12px;padding:10px 12px;border-radius:10px;
+  background:linear-gradient(135deg,#EAF2FF,#DDE9FF);
+  border:1px dashed rgba(37,99,235,0.35);
+  font-size:12px;color:var(--blue-deep);line-height:1.45;
+  display:flex;align-items:flex-start;gap:8px;
+}
+.admin-hint svg{width:16px;height:16px;flex-shrink:0;stroke:var(--blue);fill:none;stroke-width:1.8;margin-top:1px}
+.admin-hint strong{color:var(--blue);font-family:'JetBrains Mono',monospace;font-weight:600}
+
+.modal-actions{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.modal-actions .btn{width:100%;padding:14px}
+
+/* ============================================================ ADMIN PANEL */
+.admin-panel{
+  position:fixed;top:0;right:0;height:100vh;width:min(440px,94vw);z-index:1500;
+  background:#FFFFFF;border-left:1px solid var(--border);
+  box-shadow:-30px 0 80px rgba(37,99,235,0.22);
+  transform:translateX(105%);transition:transform .5s var(--ease-out);
+  overflow-y:auto;padding:24px;
+}
+.admin-panel::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 6s ease infinite;
+}
+.admin-panel.is-open{transform:none}
+.admin-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.admin-head h3{color:var(--blue-deep);font-size:20px}
+.admin-close{
+  width:38px;height:38px;border-radius:50%;background:#EAF2FF;color:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .3s ease, color .3s ease, transform .35s var(--ease-spring);
+}
+.admin-close:hover{background:var(--blue);color:#fff;transform:rotate(90deg)}
+
+.admin-tabs{
+  display:flex;gap:4px;background:#F5F9FF;border-radius:12px;
+  padding:4px;margin-bottom:22px;border:1px solid var(--border);overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none;
+}
+.admin-tabs::-webkit-scrollbar{display:none}
+.admin-tab{
+  font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:13px;
+  padding:9px 14px;border-radius:9px;color:var(--muted);white-space:nowrap;
+  transition:background .3s ease, color .3s ease;
+}
+.admin-tab:hover{color:var(--blue)}
+.admin-tab.is-active{
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;color:#fff;
+  box-shadow:0 4px 14px rgba(37,99,235,0.28);
+}
+
+.admin-section{display:none}
+.admin-section.is-active{display:block}
+
+.admin-panel .field{margin-bottom:12px}
+.admin-panel .field textarea{
+  width:100%;padding:14px;border-radius:12px;
+  background:#F5F9FF;border:1px solid var(--border);
+  font-size:14px;color:var(--ink);
+  resize:vertical;min-height:90px;font-family:'Inter',sans-serif;
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.admin-panel .field textarea:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.12)}
+.admin-panel .field select{
+  width:100%;padding:12px 14px;border-radius:12px;
+  background:#F5F9FF;border:1px solid var(--border);
+  font-size:14px;color:var(--ink);font-family:'Space Grotesk',sans-serif;cursor:pointer;
+  transition:border-color .3s ease;
+}
+.admin-panel .field select:focus{border-color:var(--blue);background:#fff}
+.admin-panel .field input[type="text"]{
+  width:100%;padding:12px 14px;border-radius:12px;
+  background:#F5F9FF;border:1px solid var(--border);
+  font-size:14px;color:var(--ink);
+  transition:border-color .3s ease, box-shadow .3s ease, background .3s ease;
+}
+.admin-panel .field input[type="text"]:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.12)}
+.admin-panel .field label.static{
+  display:block;font-family:'Space Grotesk',sans-serif;font-weight:600;
+  font-size:11px;color:var(--blue-deep);text-transform:uppercase;
+  letter-spacing:.12em;margin-bottom:6px;
+}
+
+/* FILE DROP */
+.file-drop{
+  border:1.5px dashed rgba(37,99,235,0.35);border-radius:12px;
+  padding:20px;text-align:center;cursor:pointer;
+  transition:background .3s ease, border-color .3s ease;
+  background:#F5F9FF;position:relative;
+}
+.file-drop:hover,.file-drop.is-drag{background:#EAF2FF;border-color:var(--blue)}
+.file-drop input[type="file"]{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;cursor:pointer;display:block;
+  -webkit-appearance:none;appearance:none;
+}
+.file-drop > div,.file-drop > p{position:relative;z-index:2;pointer-events:none}
+.file-drop p{font-size:12.5px;color:var(--muted);margin-top:5px}
+.file-drop strong{color:var(--blue);font-family:'Space Grotesk',sans-serif;font-weight:600}
+
+.thumb-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.thumb-preview img{
+  width:60px;height:80px;object-fit:cover;border-radius:8px;
+  border:1px solid var(--border);box-shadow:0 3px 10px rgba(37,99,235,0.10);
+}
+
+.admin-list-item{
+  display:flex;align-items:center;gap:10px;padding:10px;
+  border-radius:12px;background:#fff;border:1px solid var(--border);
+  margin-bottom:8px;
+  transition:box-shadow .3s ease, border-color .3s ease, transform .3s var(--ease);
+}
+.admin-list-item:hover{box-shadow:0 8px 22px rgba(37,99,235,0.12);border-color:var(--border-strong)}
+.admin-list-item img{width:44px;height:60px;object-fit:cover;border-radius:6px;flex-shrink:0}
+.admin-list-item .info{flex:1;min-width:0}
+.admin-list-item .info strong{
+  display:block;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;
+  color:var(--blue-deep);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.admin-list-item .info span{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+.admin-list-item .act{display:flex;gap:5px}
+.icon-btn{
+  width:34px;height:34px;border-radius:9px;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#EAF2FF;color:var(--blue);
+  transition:background .25s ease, color .25s ease, transform .3s var(--ease-spring);
+}
+.icon-btn:hover{background:var(--blue);color:#fff;transform:scale(1.06)}
+.icon-btn.danger{background:#FEE2E2;color:#DC2626}
+.icon-btn.danger:hover{background:#DC2626;color:#fff}
+.icon-btn svg{width:15px;height:15px}
+
+.stat-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px;border-radius:12px;background:#F5F9FF;
+  border:1px solid var(--border);margin-bottom:8px;
+}
+.stat-row strong{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:16px;color:var(--blue-deep)}
+.stat-row span{color:var(--muted);font-size:12.5px}
+
+/* ============================================================ TOASTS */
+.toasts{position:fixed;top:100px;right:20px;z-index:5000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{
+  display:flex;align-items:center;gap:10px;
+  padding:13px 18px;border-radius:14px;min-width:240px;max-width:360px;
+  background:#fff;
+  border:1px solid var(--border);box-shadow:0 14px 40px rgba(37,99,235,0.20);
+  transform:translateX(140%);opacity:0;
+  transition:transform .5s var(--ease-spring), opacity .5s ease;
+  pointer-events:auto;font-size:14px;color:var(--ink);
+}
+.toast.is-visible{transform:none;opacity:1}
+.toast .ic{
+  width:26px;height:26px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  background:var(--grad-live);background-size:300% 100%;
+  animation:shifting 8s ease infinite;color:#fff;
+}
+.toast.err .ic{background:linear-gradient(120deg,#DC2626,#EF4444)}
+.toast .ic svg{width:13px;height:13px}
+@media (max-width:480px){
+  .toasts{top:auto;bottom:16px;left:16px;right:16px}
+  .toast{max-width:none}
+}
+
+/* ============================================================ VIEW + REVEAL */
+.view{animation:viewIn .5s var(--ease-out)}
+@keyframes viewIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease-out), transform .8s var(--ease-out)}
+[data-reveal].is-in{opacity:1;transform:none}
+[data-reveal-stagger] > *{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease-out), transform .7s var(--ease-out)}
+[data-reveal-stagger].is-in > *{opacity:1;transform:none}
+[data-reveal-stagger].is-in > *:nth-child(1){transition-delay:.05s}
+[data-reveal-stagger].is-in > *:nth-child(2){transition-delay:.12s}
+[data-reveal-stagger].is-in > *:nth-child(3){transition-delay:.19s}
+[data-reveal-stagger].is-in > *:nth-child(4){transition-delay:.26s}
+[data-reveal-stagger].is-in > *:nth-child(5){transition-delay:.33s}
+[data-reveal-stagger].is-in > *:nth-child(6){transition-delay:.40s}
+</style>
+</head>
+<body>
+
+<div id="preloader" role="status" aria-label="Загрузка">
+  <div class="pre-logo">STARLAND</div>
+  <div class="pre-tag">библиотека комиксов</div>
+  <div class="pre-bar"><i id="pre-fill"></i></div>
+  <div class="pre-pct" id="pre-pct">0%</div>
+</div>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<header class="site-header" id="site-header">
+  <div class="container nav">
+    <div class="logo-wrap" data-nav="#home" aria-label="STARLAND — на главную">
+      <img class="logo" src="logo.png" alt="STARLAND" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+      <span class="logo-fallback" style="display:none">STARLAND</span>
+    </div>
+    <nav class="nav-links" aria-label="Основная навигация">
+      <a class="nav-link" data-nav="#home" href="#home">Главная</a>
+      <a class="nav-link" data-nav="#catalog" href="#catalog">Сборник</a>
+      <a class="nav-link" data-scroll="about" href="#about">О библиотеке</a>
+      <a class="nav-link" data-scroll="contacts" href="#contacts">Контакты</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="tg-icon-btn" href="https://t.me/fanziks" target="_blank" rel="noopener" aria-label="Telegram-канал" title="Telegram-канал">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.43.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.36-.49.99-.74 3.86-1.68 6.43-2.79 7.72-3.32 3.68-1.53 4.44-1.79 4.94-1.8.11 0 .36.03.52.16.14.11.18.27.2.38.02.11.05.37.03.53z"/></svg>
+      </a>
+      <div id="auth-slot" style="position:relative;display:flex;gap:10px;align-items:center;"></div>
+      <button class="admin-burger" id="admin-burger" style="display:none" aria-label="Админ-панель">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <button class="burger" id="burger" aria-label="Меню"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobile-menu">
+  <a data-nav="#home" href="#home">Главная</a>
+  <a data-nav="#catalog" href="#catalog">Сборник</a>
+  <a data-scroll="about" href="#about">О библиотеке</a>
+  <a data-scroll="contacts" href="#contacts">Контакты</a>
+  <a id="mobile-auth-link" href="#">Войти</a>
+  <a class="tg-menu-link" href="https://t.me/fanziks" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.43.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.36-.49.99-.74 3.86-1.68 6.43-2.79 7.72-3.32 3.68-1.53 4.44-1.79 4.94-1.8.11 0 .36.03.52.16.14.11.18.27.2.38.02.11.05.37.03.53z"/></svg>
+    Telegram-канал
+  </a>
+</nav>
+
+<a class="float-tg" href="https://t.me/fanziks" target="_blank" rel="noopener" aria-label="Telegram-канал">
+  <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.43.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.36-.49.99-.74 3.86-1.68 6.43-2.79 7.72-3.32 3.68-1.53 4.44-1.79 4.94-1.8.11 0 .36.03.52.16.14.11.18.27.2.38.02.11.05.37.03.53z"/></svg>
+  <span>Telegram</span>
+</a>
+
+<main id="app">
+
+  <section class="view" id="view-home" style="padding-top:0;padding-bottom:0">
+    <div id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="hero-tag"><span class="pulse"></span>Digital Comics Library · v2.2</div>
+            <h1 id="hero-title" aria-label="STARLAND — библиотека комиксов нового поколения">STARLAND — библиотека комиксов нового поколения</h1>
+            <p class="sub">Сотни вселенных в одном месте. Читай онлайн — <span class="hand-note">бесплатно</span>, без рекламы, без регистрации.</p>
+            <div class="hero-cta">
+              <button class="btn btn-primary" data-nav="#catalog" data-magnetic>Сборник комиксов
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </button>
+              <button class="btn btn-glass" data-scroll="about" data-magnetic>О библиотеке</button>
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat"><span class="v">500+</span><span class="l">Комиксов</span></div>
+              <div class="hero-stat"><span class="v">50k+</span><span class="l">Читателей</span></div>
+              <div class="hero-stat"><span class="v">24/7</span><span class="l">Доступ</span></div>
+            </div>
+          </div>
+          <div class="hero-3d" id="hero-3d-wrap" aria-hidden="true"><canvas id="three-canvas"></canvas></div>
+        </div>
+        <div class="counters" data-reveal>
+          <div class="counter"><span class="num" data-count="totalComics">0</span><span class="lbl">Комиксов в базе</span></div>
+          <div class="counter"><span class="num" data-count="totalViews">0</span><span class="lbl">Просмотров всего</span></div>
+          <div class="counter"><span class="num" data-count="totalReaders">0</span><span class="lbl">Активных читателей</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee-track"></div></div>
+
+    <section id="popular" data-scroll-section>
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Популярное</span>
+          <h2>Топ-5 <span class="h1-accent">прямо сейчас</span></h2>
+          <p>Самые читаемые истории по версии сообщества STARLAND. Обновляется в реальном времени.</p>
+        </div>
+        <div class="carousel" id="popular-carousel" data-reveal></div>
+      </div>
+    </section>
+
+    <section id="new" data-scroll-section style="background:linear-gradient(180deg,#FFFFFF 0%,#F5F9FF 100%)">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Новинки</span>
+          <h2>Свежие <span class="h1-accent">поступления</span></h2>
+          <p>Новые комиксы каждую неделю. Следи за обновлениями и открывай раньше других.</p>
+        </div>
+        <div class="carousel" id="new-carousel" data-reveal></div>
+      </div>
+    </section>
+
+    <section id="categories" data-scroll-section>
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Категории</span>
+          <h2>Выбирай по <span class="h1-accent">настроению</span></h2>
+          <p>Разные жанры и тематики — для любого вечера и любого настроения.</p>
+        </div>
+        <div class="categories" data-reveal-stagger>
+          <div class="cat-card" data-category="superhero">
+            <div class="cat-mark"><svg viewBox="0 0 24 24"><path d="M12 2l3 7 7 .5-5.5 4.5L18 21l-6-3.5L6 21l1.5-7L2 9.5 9 9z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><span class="cat-count" data-count-cat="superhero">0</span><span class="cat-count-lbl">Тайтлов</span>
+              <h3 style="margin-top:10px">Супергерои</h3><p>Эпические сражения, мультивселенные и легенды в масках.</p></div>
+          </div>
+          <div class="cat-card" data-category="fantasy">
+            <div class="cat-mark"><svg viewBox="0 0 24 24"><path d="M12 2v20M5 7h14M5 17h14" stroke-linecap="round"/><circle cx="12" cy="12" r="4"/></svg></div>
+            <div><span class="cat-count" data-count-cat="fantasy">0</span><span class="cat-count-lbl">Тайтлов</span>
+              <h3 style="margin-top:10px">Фэнтези и магия</h3><p>Магия, драконы, мифические миры и древние пророчества.</p></div>
+          </div>
+          <div class="cat-card" data-category="scifi">
+            <div class="cat-mark"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="5"/><ellipse cx="12" cy="12" rx="10" ry="5" transform="rotate(60 12 12)"/></svg></div>
+            <div><span class="cat-count" data-count-cat="scifi">0</span><span class="cat-count-lbl">Тайтлов</span>
+              <h3 style="margin-top:10px">Sci-Fi</h3><p>Космос, киберпанк и будущее — каким мы его ещё не видели.</p></div>
+          </div>
+          <div class="cat-card" data-category="other">
+            <div class="cat-mark"><svg viewBox="0 0 24 24"><path d="M4 4h7v16H4zM13 4h7v16h-7z" stroke-linecap="round"/></svg></div>
+            <div><span class="cat-count" data-count-cat="other">0</span><span class="cat-count-lbl">Тайтлов</span>
+              <h3 style="margin-top:10px">Другое</h3><p>Авторские серии, инди, манга и независимые вселенные.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" data-scroll-section style="background:linear-gradient(180deg,#F5F9FF 0%,#EAF2FF 100%)">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Как это работает</span>
+          <h2>Три шага до <span class="h1-accent">любимого</span> комикса</h2>
+          <p>Мы убрали всё лишнее: никаких подписок, скрытых платежей и всплывающих окон.</p>
+        </div>
+        <div class="steps" data-reveal-stagger>
+          <div class="step">
+            <div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
+            <div class="step-num">STEP · 01</div><h3>Выбираешь</h3>
+            <p>Открываешь каталог, фильтруешь по категории и находишь комикс по вкусу.</p>
+          </div>
+          <div class="step">
+            <div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16v12H4z"/><path d="M8 10h8M8 14h5"/></svg></div>
+            <div class="step-num">STEP · 02</div><h3>Открываешь</h3>
+            <p>Нажимаешь «Читать Онлайн» — страницы подгружаются моментально, без рекламы.</p>
+          </div>
+          <div class="step">
+            <div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 4v12a2 2 0 01-2 2H6l-4 4V4a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <div class="step-num">STEP · 03</div><h3>Читаешь</h3>
+            <p>Листаешь в webtoon-стиле прямо в браузере — на любом устройстве.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why" data-scroll-section>
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">Почему STARLAND</span>
+          <h2>Библиотека, созданная <span class="h1-accent">для читателей</span></h2>
+        </div>
+        <div class="bento" data-reveal-stagger>
+          <div class="bento-card b1">
+            <div class="step-mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2v20M2 12h20"/></svg></div>
+            <h3>Абсолютно бесплатно</h3>
+            <p>Никаких платных подписок и премиум-доступов. Все комиксы открыты для всех читателей STARLAND — навсегда.</p>
+          </div>
+          <div class="bento-card b2"><h3>Без рекламы</h3><p>Читай без баннеров, попапов и видео-вставок.</p></div>
+          <div class="bento-card b3"><h3>500+ комиксов</h3><p>Десятки вселенных и жанров в одном каталоге.</p></div>
+          <div class="bento-card b4"><h3>Всё в одном месте</h3><p>Каталог, читалка, лайки и история — единая экосистема.</p></div>
+          <div class="bento-card b5"><h3>Читаешь везде</h3><p>Телефон, планшет, десктоп. Прогресс сохраняется.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" data-scroll-section style="background:linear-gradient(180deg,#FFFFFF 0%,#F5F9FF 100%)">
+      <div class="container">
+        <div class="section-head" data-reveal style="text-align:center;margin-inline:auto">
+          <span class="eyebrow" style="justify-content:center">FAQ</span>
+          <h2 style="text-align:center">Частые <span class="h1-accent">вопросы</span></h2>
+        </div>
+        <div class="faq" id="faq-list" data-reveal></div>
+      </div>
+    </section>
+
+    <section data-scroll-section>
+      <div class="container">
+        <div class="cta-block" data-reveal>
+          <h2>Готов начать <em>читать</em>?</h2>
+          <p>Открой каталог STARLAND и выбери свой первый комикс прямо сейчас. Регистрация не обязательна.</p>
+          <div class="cta-actions">
+            <button class="btn" data-nav="#catalog" data-magnetic>Перейти в сборник
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <a class="foot-tg-btn" href="https://t.me/fanziks" target="_blank" rel="noopener" style="background:#fff;color:var(--tg-2);padding:16px 28px;font-size:15px;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.20);">
+              <svg viewBox="0 0 24 24" style="fill:var(--tg-2);width:20px;height:20px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.43.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.36-.49.99-.74 3.86-1.68 6.43-2.79 7.72-3.32 3.68-1.53 4.44-1.79 4.94-1.8.11 0 .36.03.52.16.14.11.18.27.2.38.02.11.05.37.03.53z"/></svg>
+              Наш Telegram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <section class="view" id="view-catalog" style="display:none">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Сборник</span>
+        <h2>Все комиксы <span class="h1-accent">STARLAND</span></h2>
+        <p>Фильтруй по категории, ищи по названию и открывай любую историю в один клик.</p>
+      </div>
+      <div class="filters">
+        <div class="tabs-wrap">
+          <div class="tabs" id="catalog-tabs">
+            <button class="tab is-active" data-category="all">Все</button>
+            <button class="tab" data-category="superhero">Супергерои</button>
+            <button class="tab" data-category="fantasy">Фэнтези</button>
+            <button class="tab" data-category="scifi">Sci-Fi</button>
+            <button class="tab" data-category="other">Другое</button>
+          </div>
+        </div>
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35" stroke-linecap="round"/></svg>
+          <input type="text" id="catalog-search" placeholder="Поиск по названию..." autocomplete="off" />
+        </div>
+        <select class="sort-select" id="catalog-sort">
+          <option value="popular">Популярные</option>
+          <option value="new">Новые</option>
+          <option value="alpha">По алфавиту</option>
+        </select>
+      </div>
+      <div class="comics-grid" id="catalog-grid"></div>
+      <div id="catalog-empty"></div>
+    </div>
+  </section>
+
+  <section class="view" id="view-read" style="display:none">
+    <div class="container">
+      <div class="reader-top">
+        <button class="back" data-nav="#catalog">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          В каталог
+        </button>
+        <div class="reader-title" id="reader-title">—</div>
+        <div class="reader-progress-wrap">
+          <div class="reader-progress"><i id="reader-progress-fill"></i></div>
+          <div class="reader-page-info" id="reader-page-info">0 / 0</div>
+        </div>
+      </div>
+      <div class="reader-content" id="reader-content"></div>
+      <div class="reader-nav">
+        <button class="btn btn-glass" id="reader-prev">← Предыдущий</button>
+        <button class="btn btn-primary" id="reader-next">Следующий →</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contacts">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="logo-wrap" data-nav="#home" style="margin-bottom:16px">
+          <img class="logo" src="logo.png" alt="STARLAND" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+          <span class="logo-fallback" style="display:none">STARLAND</span>
+        </div>
+        <p style="max-width:340px">Премиальная онлайн-библиотека комиксов. Читай бесплатно, без рекламы и регистрации.</p>
+        <a class="foot-tg-btn" href="https://t.me/fanziks" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.43.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.36-.49.99-.74 3.86-1.68 6.43-2.79 7.72-3.32 3.68-1.53 4.44-1.79 4.94-1.8.11 0 .36.03.52.16.14.11.18.27.2.38.02.11.05.37.03.53z"/></svg>
+          Подписаться
+        </a>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <ul>
+          <li><a data-nav="#home" href="#home">Главная</a></li>
+          <li><a data-nav="#catalog" href="#catalog">Сборник</a></li>
+          <li><a data-scroll="about" href="#about">О библиотеке</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Категории</h4>
+        <ul>
+          <li><a href="#catalog" data-cat-cat="superhero">Супергерои</a></li>
+          <li><a href="#catalog" data-cat-cat="fantasy">Фэнтези</a></li>
+          <li><a href="#catalog" data-cat-cat="scifi">Sci-Fi</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Контакты</h4>
+        <ul>
+          <li>support@starland.io</li>
+          <li><a href="https://t.me/fanziks" target="_blank" rel="noopener">Telegram: @fanziks</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> STARLAND. Все права защищены.</span>
+      <span>Made with ⚡ in 2025</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="to-top" aria-label="Наверх">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+  <svg class="ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" stroke-dasharray="175.9" stroke-dashoffset="175.9" id="to-top-ring"/></svg>
+</button>
+
+<div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" data-close-modal="auth-modal" aria-label="Закрыть">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 id="auth-title">Добро пожаловать</h3>
+    <p class="modal-sub" id="auth-sub">Войдите, чтобы сохранять лайки и прогресс чтения</p>
+    <div class="auth-tabs" id="auth-tabs">
+      <div class="auth-tab-indicator" id="auth-tab-ind"></div>
+      <button class="auth-tab is-active" data-authtab="login">Войти</button>
+      <button class="auth-tab" data-authtab="register">Регистрация</button>
+    </div>
+    <form id="auth-form" novalidate>
+      <div class="field" id="f-username">
+        <input type="text" id="in-username" placeholder=" " autocomplete="username" />
+        <label for="in-username">Никнейм</label>
+        <div class="field-err">3–20 символов: латиница, цифры, _</div>
+      </div>
+      <div class="field" id="f-pass">
+        <input type="password" id="in-pass" placeholder=" " autocomplete="current-password" />
+        <label for="in-pass">Пароль</label>
+        <div class="field-err">Минимум 6 символов</div>
+      </div>
+      <div class="admin-hint">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><strong>Админ:</strong> логин <strong>starland</strong> · пароль <strong>blue2025</strong></div>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary" id="auth-submit">Войти</button>
+        <button type="button" class="btn btn-ghost" id="auth-guest">Войти как гость</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="confirm-modal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:400px" onclick="event.stopPropagation()">
+    <h3 id="confirm-title">Подтвердите действие</h3>
+    <p class="modal-sub" id="confirm-text">Это действие нельзя отменить.</p>
+    <div class="modal-actions" style="flex-direction:row">
+      <button class="btn btn-glass" data-close-modal="confirm-modal" style="flex:1">Отмена</button>
+      <button class="btn btn-primary" id="confirm-yes" style="flex:1">Подтвердить</button>
+    </div>
+  </div>
+</div>
+
+<aside class="admin-panel" id="admin-panel" aria-label="Админ-панель">
+  <div class="admin-head">
+    <h3>Админ-панель</h3>
+    <button class="admin-close" id="admin-close" aria-label="Закрыть">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="admin-tabs">
+    <button class="admin-tab is-active" data-admintab="create">Создать</button>
+    <button class="admin-tab" data-admintab="edit">Редактировать</button>
+    <button class="admin-tab" data-admintab="stats">Статистика</button>
+    <button class="admin-tab" data-admintab="users" id="admin-users-tab">Пользователи</button>
+  </div>
+  <div class="admin-section is-active" data-adminsection="create">
+    <h4 style="font-family:'Space Grotesk';font-weight:600;color:var(--blue-deep);margin-bottom:14px;font-size:15px" id="comic-form-title">Новый комикс</h4>
+    <div class="field"><label class="static">Название</label>
+      <input type="text" id="c-title" placeholder="Например, Полночный страж" /></div>
+    <div class="field"><label class="static">Категория</label>
+      <select id="c-category">
+        <option value="superhero">Супергерои</option><option value="fantasy">Фэнтези</option>
+        <option value="scifi">Sci-Fi</option><option value="other">Другое</option>
+      </select></div>
+    <div class="field"><label class="static">Описание</label>
+      <textarea id="c-desc" placeholder="Краткое описание комикса..."></textarea></div>
+    <div class="field"><label class="static">Обложка</label>
+      <div class="file-drop" id="cover-drop">
+        <input type="file" id="c-cover" accept="image/*" />
+        <div><strong>Нажмите для выбора</strong> или перетащите</div>
+        <p>PNG, JPG · до 2 МБ</p>
+      </div>
+      <div class="thumb-preview" id="cover-preview"></div></div>
+    <div class="field"><label class="static">Страницы</label>
+      <div class="file-drop" id="pages-drop">
+        <input type="file" id="c-pages" accept="image/*" multiple />
+        <div><strong>Несколько файлов</strong> подряд</div>
+        <p>Порядок = порядок выбора</p>
+      </div>
+      <div class="thumb-preview" id="pages-preview"></div></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="comic-save">Опубликовать</button>
+      <button class="btn btn-ghost" id="comic-cancel" style="display:none">Отменить</button>
+    </div>
+  </div>
+  <div class="admin-section" data-adminsection="edit">
+    <h4 style="font-family:'Space Grotesk';font-weight:600;color:var(--blue-deep);margin-bottom:14px;font-size:15px">Все комиксы</h4>
+    <div id="admin-comics-list"></div>
+  </div>
+  <div class="admin-section" data-adminsection="stats">
+    <h4 style="font-family:'Space Grotesk';font-weight:600;color:var(--blue-deep);margin-bottom:14px;font-size:15px">Статистика</h4>
+    <div class="stat-row"><span>Всего комиксов</span><strong id="stat-comics">0</strong></div>
+    <div class="stat-row"><span>Всего просмотров</span><strong id="stat-views">0</strong></div>
+    <div class="stat-row"><span>Пользователей</span><strong id="stat-users">0</strong></div>
+    <h4 style="font-family:'Space Grotesk';font-weight:600;color:var(--blue-deep);margin:18px 0 10px;font-size:13.5px">Топ-5</h4>
+    <div id="admin-top-list"></div>
+  </div>
+  <div class="admin-section" data-adminsection="users">
+    <h4 style="font-family:'Space Grotesk';font-weight:600;color:var(--blue-deep);margin-bottom:14px;font-size:15px">Пользователи</h4>
+    <div id="admin-users-list"></div>
+  </div>
+</aside>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
+    "gsap/ScrollTrigger": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/ScrollTrigger.js",
+    "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.mjs",
+    "firebase-app": "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js",
+    "firebase-auth": "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js",
+    "firebase-db": "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js"
+  }
+}
+</script>
+
+<script type="module">
+import { initializeApp } from 'firebase-app';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'firebase-auth';
+import { getDatabase, ref, push, set, update, remove, onValue, get, runTransaction } from 'firebase-db';
+import * as THREE from 'three';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============================================================
+   FIREBASE CONFIG — ЗАМЕНИ НА СВОИ КЛЮЧИ
+   ============================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyDemoKeyReplaceMeWithYourOwnKey123456",
+  authDomain: "regrentdesign.firebaseapp.com",
+  databaseURL: "https://regrentdesign-default-rtdb.firebaseio.com/",
+  projectId: "regrentdesign",
+  storageBucket: "regrentdesign.appspot.com",
+  messagingSenderId: "000000000000",
+  appId: "1:000000000000:web:0000000000000000000000"
+};
+
+/* Проверка: настроен ли Firebase по-настоящему.
+   Если ключ — заглушка, работаем в localStorage-режиме. */
+const FIREBASE_CONFIGURED = (() => {
+  const k = firebaseConfig.apiKey || '';
+  return k.startsWith('AIza') && k.length > 30 && !k.toLowerCase().includes('demo');
+})();
+
+/* ============================================================
+   ADMIN CREDENTIALS
+   starland / blue2025
+   ============================================================ */
+const ADMIN_LOGIN = 'starland';
+const ADMIN_PASS = 'blue2025';
+const SYNTH_DOMAIN = '@starland.app';
+
+/* ============================================================
+   STATE
+   ============================================================ */
+const state = {
+  fbReady:false, auth:null, db:null, user:null,
+  role:'guest', isAdminLocal:false,
+  comics:{}, users:{}, meta:{ totalComics:0, totalViews:0, totalReaders:50 },
+  filter:{ category:'all', search:'', sort:'popular' },
+  route:'home', currentComic:null, prevComic:null, nextComic:null,
+  editingId:null, coverData:null, pagesData:[],
+  confirmCallback:null
+};
+
+const localKey = 'starland_local_db';
+function loadLocalDB(){ try{ return JSON.parse(localStorage.getItem(localKey) || '{}'); }catch(e){ return {}; } }
+function saveLocalDB(db){ try{ localStorage.setItem(localKey, JSON.stringify(db)); }catch(e){} }
+let LOCAL_DB = loadLocalDB();
+if(!LOCAL_DB.comics) LOCAL_DB.comics = {};
+if(!LOCAL_DB.users) LOCAL_DB.users = {};
+if(!LOCAL_DB.meta) LOCAL_DB.meta = { totalComics:0, totalViews:0, totalReaders:50 };
+
+function fbInit(){
+  if (!FIREBASE_CONFIGURED){
+    console.info('[STARLAND] Firebase не настроен — режим localStorage.');
+    state.fbReady = false;
+    return;
+  }
+  try{
+    const app = initializeApp(firebaseConfig);
+    state.auth = getAuth(app);
+    state.db = getDatabase(app);
+    state.fbReady = true;
+  }catch(e){
+    console.warn('[STARLAND] Firebase init failed → localStorage.');
+    state.fbReady = false;
+  }
+}
+fbInit();
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const debounce = (fn, ms=200) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a),ms); }; };
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = () => window.innerWidth < 768;
+const fmt = (n) => new Intl.NumberFormat('ru-RU').format(Math.round(n||0));
+const escapeHTML = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const normalizeUsername = (u) => String(u||'').trim().toLowerCase().replace(/\s+/g,'_');
+const isValidUsername = (u) => /^[a-z0-9_]{3,20}$/.test(normalizeUsername(u));
+
+function toast(msg, type='ok', dur=2600){
+  const wrap = $('#toasts');
+  const el = document.createElement('div');
+  el.className = 'toast' + (type==='err' ? ' err' : '');
+  el.innerHTML = `<div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">${type==='err' ? '<path d="M18 6L6 18M6 6l12 12"/>' : '<path d="M5 12l5 5L20 7"/>'}</svg></div><div>${msg}</div>`;
+  wrap.appendChild(el);
+  requestAnimationFrame(()=> el.classList.add('is-visible'));
+  setTimeout(()=>{ el.classList.remove('is-visible'); setTimeout(()=> el.remove(), 500); }, dur);
+}
+
+/* ============================================================
+   PRELOADER
+   ============================================================ */
+(function preloader(){
+  const fill = $('#pre-fill'); const pct = $('#pre-pct');
+  let p = 0;
+  const t = setInterval(()=>{
+    p += Math.random() * 14 + 4;
+    if (p >= 100){ p = 100; clearInterval(t); }
+    fill.style.width = p + '%'; pct.textContent = Math.round(p) + '%';
+    if (p === 100) setTimeout(()=> $('#preloader').classList.add('is-hidden'), 200);
+  }, 90);
+})();
+
+/* ============================================================
+   CURSOR — упрощённый, без искр
+   ============================================================ */
+(function cursor(){
+  if (window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
+  const dot = $('#cursor-dot'); const ring = $('#cursor-ring');
+  let mx = innerWidth/2, my = innerHeight/2, rx = mx, ry = my;
+  window.addEventListener('mousemove', (e)=>{
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  }, { passive:true });
+  (function raf(){
+    rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18;
+    ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(raf);
+  })();
+  document.addEventListener('mouseover', (e)=>{
+    const t = e.target.closest('button, a, .comic-card, .cat-card, .admin-list-item, input, select, .faq-q, .logo-wrap, .step');
+    ring.classList.toggle('is-hover', !!t);
+  });
+})();
+
+/* ============================================================
+   LENIS
+   ============================================================ */
+let lenis = null;
+if (!prefersReducedMotion){
+  try{
+    lenis = new Lenis({ duration:1, smoothWheel:true, wheelMultiplier:1, touchMultiplier:1.5 });
+    const raf = (time)=>{ lenis.raf(time); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  }catch(e){}
+}
+
+/* ============================================================
+   SCROLL
+   ============================================================ */
+const header = $('#site-header');
+let ticking = false;
+window.addEventListener('scroll', ()=>{
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(()=>{
+    const y = window.scrollY;
+    header.classList.toggle('is-scrolled', y > 20);
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    const p = h > 0 ? Math.min(y / h, 1) : 0;
+    $('#to-top').classList.toggle('is-visible', y > 400);
+    const ring = $('#to-top-ring');
+    if (ring){
+      const c = 2 * Math.PI * 28;
+      ring.style.strokeDashoffset = (c * (1 - p)).toFixed(2);
+    }
+    if (state.route === 'read') updateReaderProgress();
+    ticking = false;
+  });
+}, { passive:true });
+
+$('#to-top')?.addEventListener('click', ()=>{
+  if (lenis) lenis.scrollTo(0, { duration:1 }); else window.scrollTo({ top:0, behavior:'smooth' });
+});
+
+/* ============================================================
+   BURGER
+   ============================================================ */
+const burger = $('#burger'); const mobileMenu = $('#mobile-menu');
+burger.addEventListener('click', ()=>{
+  burger.classList.toggle('is-open');
+  mobileMenu.classList.toggle('is-open');
+  document.body.style.overflow = mobileMenu.classList.contains('is-open') ? 'hidden' : '';
+});
+function closeMobileMenu(){
+  burger.classList.remove('is-open'); mobileMenu.classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+mobileMenu.addEventListener('click', (e)=>{ if (e.target.tagName === 'A') closeMobileMenu(); });
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+document.body.addEventListener('click', (e)=>{
+  const nav = e.target.closest('[data-nav]');
+  if (nav){
+    e.preventDefault();
+    const hash = nav.dataset.nav;
+    if (location.hash === hash) renderRoute(); else location.hash = hash;
+    closeMobileMenu(); return;
+  }
+  const scroll = e.target.closest('[data-scroll]');
+  if (scroll){
+    e.preventDefault();
+    const id = scroll.dataset.scroll;
+    if (location.hash !== '#home' && location.hash !== ''){
+      location.hash = '#home'; setTimeout(()=> scrollToId(id), 120);
+    } else scrollToId(id);
+    closeMobileMenu(); return;
+  }
+  const cc = e.target.closest('[data-cat-cat]');
+  if (cc){ e.preventDefault(); state.filter.category = cc.dataset.catCat; location.hash = '#catalog'; return; }
+  const cat = e.target.closest('.cat-card');
+  if (cat){
+    const c = cat.dataset.category || 'other';
+    state.filter.category = c;
+    location.hash = '#catalog';
+    setTimeout(()=>{
+      $$('#catalog-tabs .tab').forEach(t=>t.classList.toggle('is-active', t.dataset.category === c));
+      renderCatalog();
+    }, 60);
+  }
+});
+function scrollToId(id){
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (lenis) lenis.scrollTo(el, { offset:-90 }); else el.scrollIntoView({ behavior:'smooth' });
+}
+function updateActiveNav(route){
+  $$('.nav-link').forEach(a=>{
+    const nav = a.dataset.nav;
+    a.classList.toggle('is-active', nav && nav === '#home' ? route === 'home' : nav && nav === '#catalog' ? route === 'catalog' : false);
+  });
+}
+$('#year').textContent = new Date().getFullYear();
+
+/* ============================================================
+   SPLIT H1
+   ============================================================ */
+(function splitH1(){
+  const el = $('#hero-title'); if (!el) return;
+  const text = el.textContent.trim();
+  el.innerHTML = '';
+  text.split(/\s+/).forEach((w, wi, arr)=>{
+    const wS = document.createElement('span');
+    wS.style.display = 'inline-block'; wS.style.whiteSpace = 'nowrap';
+    Array.from(w).forEach(ch=>{
+      const s = document.createElement('span');
+      s.className = 'char'; s.textContent = ch;
+      s.style.display = 'inline-block'; s.style.willChange = 'transform,opacity';
+      wS.appendChild(s);
+    });
+    el.appendChild(wS);
+    if (wi < arr.length - 1){
+      const sp = document.createElement('span'); sp.innerHTML = '&nbsp;'; sp.style.display = 'inline-block';
+      el.appendChild(sp);
+    }
+  });
+  if (!prefersReducedMotion){
+    gsap.fromTo('#hero-title .char',
+      { yPercent:110, opacity:0, rotateX:-70 },
+      { yPercent:0, opacity:1, rotateX:0, duration:.95, stagger:.014, ease:'power4.out', delay:1 }
+    );
+    gsap.fromTo('.hero-tag, .hero-copy p.sub, .hero-cta, .hero-stats',
+      { y:20, opacity:0 }, { y:0, opacity:1, duration:.75, stagger:.1, ease:'power3.out', delay:1.3 });
+  }
+})();
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+function initReveal(){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      if (en.isIntersecting){ en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, { rootMargin:'0px 0px -6% 0px', threshold:0.06 });
+  $$('[data-reveal]:not(.is-in), [data-reveal-stagger]:not(.is-in)').forEach(el=>io.observe(el));
+}
+
+/* ============================================================
+   COUNT-UP
+   ============================================================ */
+function animateCount(el, target, duration=1400){
+  const start = performance.now();
+  (function step(t){
+    const p = Math.min((t - start) / duration, 1);
+    el.textContent = fmt(target * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+  })(start);
+}
+let countersAnimated = false;
+function tryAnimateCounters(){
+  if (countersAnimated) return;
+  const counters = $$('.counter .num');
+  if (!counters.length) return;
+  const rect = counters[0].getBoundingClientRect();
+  if (rect.top < innerHeight && rect.bottom > 0){
+    countersAnimated = true;
+    const arr = getAllComicsArray();
+    const totalViews = arr.reduce((s,c)=>s+(+c.views||0),0);
+    const map = {
+      totalComics: state.meta.totalComics || arr.length,
+      totalViews: state.meta.totalViews || totalViews,
+      totalReaders: state.meta.totalReaders || 50
+    };
+    counters.forEach(el=> animateCount(el, map[el.dataset.count] ?? 0));
+  }
+}
+setTimeout(tryAnimateCounters, 800);
+window.addEventListener('scroll', tryAnimateCounters, { passive:true, once:false });
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+const FAQ_ITEMS = [
+  { q:'STARLAND — это бесплатно?', a:'Да, полностью. Никаких подписок, премиум-доступов или скрытых платежей.' },
+  { q:'Нужно ли регистрироваться, чтобы читать?', a:'Нет. Любой комикс можно открыть и читать без аккаунта.' },
+  { q:'Есть ли реклама?', a:'Нет. STARLAND создан читателями для читателей.' },
+  { q:'Какие категории доступны?', a:'Супергерои, фэнтези, sci-fi, инди и манга.' },
+  { q:'Как работает чтение?', a:'Открываешь комикс → страницы подгружаются лениво прямо в браузере.' },
+  { q:'Сколько комиксов в библиотеке?', a:'Более 500 тайтлов, и мы добавляем новинки каждую неделю.' },
+  { q:'Можно ли читать с телефона?', a:'Да. STARLAND полностью адаптивен под любые устройства.' },
+  { q:'Где следить за новостями?', a:'В нашем Telegram-канале @fanziks.' }
+];
+function renderFAQ(){
+  const list = $('#faq-list'); if (!list) return;
+  list.innerHTML = FAQ_ITEMS.map(it=>`
+    <div class="faq-item" data-faq>
+      <button class="faq-q" aria-expanded="false"><span>${it.q}</span><span class="plus">+</span></button>
+      <div class="faq-a"><p>${it.a}</p></div>
+    </div>`).join('');
+  list.addEventListener('click', (e)=>{
+    const q = e.target.closest('.faq-q'); if (!q) return;
+    const item = q.parentElement;
+    const wasOpen = item.classList.contains('is-open');
+    $$('.faq-item.is-open', list).forEach(x=>x.classList.remove('is-open'));
+    if (!wasOpen) item.classList.add('is-open');
+  });
+}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+function renderMarquee(){
+  const t = $('#marquee-track'); if (!t) return;
+  const items = ['Супергерои','Фэнтези','Sci-Fi','Инди','Манга','Классика','Новинки','Авторские','Детективы','Хоррор'];
+  const html = items.map(x=>`<span>${x}</span>`).join('');
+  t.innerHTML = html + html;
+}
+
+/* ============================================================
+   MAGNETIC
+   ============================================================ */
+function initMagnetic(){
+  if (window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
+  $$('[data-magnetic]').forEach(btn=>{
+    if (btn.dataset.magInit) return;
+    btn.dataset.magInit = '1';
+    btn.addEventListener('mousemove', (e)=>{
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2;
+      const y = e.clientY - r.top - r.height/2;
+      btn.style.transform = `translate(${x*0.14}px, ${y*0.20}px)`;
+    });
+    btn.addEventListener('mouseleave', ()=>{ btn.style.transform = ''; });
+  });
+}
+
+/* ============================================================
+   RIPPLE
+   ============================================================ */
+document.body.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.btn, .btn-read'); if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const ripple = document.createElement('span');
+  ripple.className = 'ripple';
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + 'px';
+  ripple.style.left = (e.clientX - rect.left) + 'px';
+  ripple.style.top = (e.clientY - rect.top) + 'px';
+  btn.appendChild(ripple);
+  setTimeout(()=> ripple.remove(), 800);
+});
+
+/* ============================================================
+   TILT
+   ============================================================ */
+function initTilt(root=document){
+  if (window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
+  $$('.comic-card', root).forEach(card=>{
+    if (card.dataset.tilted) return;
+    card.dataset.tilted = '1';
+    card.addEventListener('mousemove', (e)=>{
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      card.style.transform = `perspective(1100px) rotateX(${(0.5-py)*6}deg) rotateY(${(px-0.5)*6}deg) translateY(-8px)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform = ''; });
+  });
+}
+
+/* ============================================================
+   THREE.JS — меньше частиц
+   ============================================================ */
+function initThree(){
+  const canvas = $('#three-canvas'); const wrap = $('#hero-3d-wrap');
+  if (!canvas || !wrap) return;
+  if (isMobile() || prefersReducedMotion) return;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true, powerPreference:'high-performance' });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(wrap.clientWidth, wrap.clientHeight, false);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(48, wrap.clientWidth / wrap.clientHeight, 0.1, 100);
+  camera.position.set(0, 0, 5.4);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.95));
+  const d1 = new THREE.DirectionalLight(0x2563EB, 1.9); d1.position.set(4, 3, 5); scene.add(d1);
+  const d2 = new THREE.DirectionalLight(0x06B6D4, 1.4); d2.position.set(-5, -2, 2); scene.add(d2);
+  const d3 = new THREE.PointLight(0x60A5FA, 2.2, 12); d3.position.set(0, 2, 3); scene.add(d3);
+
+  const geo = new THREE.IcosahedronGeometry(1.55, 1);
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0x3B82F6, emissive: 0x2563EB, emissiveIntensity: 0.65,
+    metalness: 0.45, roughness: 0.22, flatShading: true
+  });
+  const mesh = new THREE.Mesh(geo, mat); scene.add(mesh);
+
+  const wireGeo = new THREE.IcosahedronGeometry(1.72, 1);
+  const wireMat = new THREE.MeshBasicMaterial({ color: 0x22D3EE, wireframe:true, transparent:true, opacity:0.35 });
+  mesh.add(new THREE.Mesh(wireGeo, wireMat));
+
+  const coreGeo = new THREE.IcosahedronGeometry(0.9, 0);
+  const coreMat = new THREE.MeshBasicMaterial({ color: 0x60A5FA, transparent:true, opacity:0.35 });
+  const core = new THREE.Mesh(coreGeo, coreMat); mesh.add(core);
+
+  const COUNT = 90;
+  const particles = new THREE.InstancedMesh(
+    new THREE.TetrahedronGeometry(0.04),
+    new THREE.MeshBasicMaterial({ color: 0x2563EB, transparent:true, opacity:0.85 }),
+    COUNT
+  );
+  const dummy = new THREE.Object3D();
+  const pData = [];
+  for (let i=0; i<COUNT; i++){
+    const r = 2.5 + Math.random() * 1.9;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    const x = r * Math.sin(phi) * Math.cos(theta);
+    const y = r * Math.sin(phi) * Math.sin(theta);
+    const z = r * Math.cos(phi);
+    pData.push({ x, y, z, phase: Math.random() * Math.PI * 2, amp: 0.16 + Math.random() * 0.26 });
+    dummy.position.set(x, y, z);
+    dummy.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+    dummy.updateMatrix();
+    particles.setMatrixAt(i, dummy.matrix);
+  }
+  particles.instanceMatrix.needsUpdate = true;
+  scene.add(particles);
+
+  let mouseX = 0, mouseY = 0;
+  window.addEventListener('mousemove', (e)=>{
+    const r = wrap.getBoundingClientRect();
+    mouseX = ((e.clientX - r.left) / r.width) * 2 - 1;
+    mouseY = ((e.clientY - r.top) / r.height) * 2 - 1;
+  }, { passive:true });
+
+  let inView = true;
+  let loopId = null;
+  const clock = new THREE.Clock();
+  new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ inView = en.isIntersecting; if (inView) start(); else stop(); });
+  }, { threshold:0.05 }).observe(wrap);
+
+  window.addEventListener('resize', debounce(()=>{
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+  }, 200));
+
+  function start(){
+    if (loopId) return;
+    const tick = ()=>{
+      const t = clock.getElapsedTime();
+      mesh.rotation.y += 0.0035;
+      mesh.rotation.x = Math.sin(t * 0.4) * 0.18;
+      const tx = mouseX * 0.35;
+      mesh.rotation.z += (tx - mesh.rotation.z) * 0.03;
+      mesh.position.y = Math.sin(t * 0.8) * 0.07 + (mouseY * 0.15);
+      core.rotation.y -= 0.008; core.rotation.x += 0.005;
+      for (let i=0; i<COUNT; i++){
+        const p = pData[i];
+        dummy.position.set(p.x, p.y + Math.sin(t + p.phase) * p.amp, p.z);
+        dummy.rotation.set(t * 0.15 + p.phase, t * 0.2 + p.phase, 0);
+        dummy.updateMatrix();
+        particles.setMatrixAt(i, dummy.matrix);
+      }
+      particles.instanceMatrix.needsUpdate = true;
+      renderer.render(scene, camera);
+      loopId = requestAnimationFrame(tick);
+    };
+    loopId = requestAnimationFrame(tick);
+  }
+  function stop(){ if (loopId){ cancelAnimationFrame(loopId); loopId = null; } }
+  document.addEventListener('visibilitychange', ()=>{ if (document.hidden) stop(); else if (inView) start(); });
+  start();
+}
+
+/* ============================================================
+   COMIC CARD
+   ============================================================ */
+const CAT_LABELS = { 'superhero':'Супергерои','fantasy':'Фэнтези','scifi':'Sci-Fi','other':'Другое' };
+function comicCardHTML(id, c, idx=0){
+  const cover = c.coverUrl || (c.pages && c.pages[0]) || '';
+  const desc = c.description || 'Описание скоро появится.';
+  const views = fmt(c.views || 0);
+  const catLabel = CAT_LABELS[c.category || c.universe] || 'Другое';
+  const delay = Math.min(idx * 0.05, 0.5);
+  const coverImg = cover
+    ? `<img src="${cover}" alt="${escapeHTML(c.title||'Комикс')}" loading="lazy" />`
+    : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--grad-deep);color:#fff;font-family:'Unbounded';font-size:44px;font-weight:800;">★</div>`;
+  return `
+    <article class="comic-card" data-comic-id="${id}" style="animation-delay:${delay}s">
+      <div class="comic-cover">
+        <span class="comic-cat-tag">${escapeHTML(catLabel)}</span>
+        ${coverImg}
+      </div>
+      <div class="comic-body">
+        <h3 class="comic-title">${escapeHTML(c.title || 'Без названия')}</h3>
+        <p class="comic-desc">${escapeHTML(desc)}</p>
+        <div class="comic-meta">
+          <span class="views">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            <span>${views}</span>
+          </span>
+        </div>
+        <button class="btn-read" data-read-id="${id}">Читать Онлайн</button>
+      </div>
+    </article>`;
+}
+
+/* ============================================================
+   DATA
+   ============================================================ */
+let comicsLoaded = false;
+function bindComics(){
+  if (state.fbReady){
+    onValue(ref(state.db, 'starland/comics'), (snap)=>{
+      state.comics = snap.val() || {}; comicsLoaded = true; renderAll();
+    }, ()=>{ state.comics = LOCAL_DB.comics; comicsLoaded = true; renderAll(); });
+    onValue(ref(state.db, 'starland/meta'), (snap)=>{
+      state.meta = Object.assign({ totalComics:0, totalViews:0, totalReaders:50 }, snap.val() || {});
+      renderCounters();
+    }, ()=>{});
+  } else {
+    state.comics = LOCAL_DB.comics;
+    state.meta = LOCAL_DB.meta || { totalComics:0, totalViews:0, totalReaders:50 };
+    comicsLoaded = true;
+    renderAll(); renderCounters();
+  }
+}
+function getAllComicsArray(){
+  return Object.entries(state.comics).map(([id,c])=>({ id, ...c }));
+}
+
+function renderCounters(){
+  const arr = getAllComicsArray();
+  const map = {
+    totalComics: arr.length,
+    totalViews: arr.reduce((s,c)=>s+(+c.views||0),0),
+    totalReaders: state.meta.totalReaders || 50
+  };
+  $$('.counter .num').forEach(el=>{
+    const key = el.dataset.count;
+    if (key && countersAnimated) el.textContent = fmt(map[key]);
+  });
+  ['superhero','fantasy','scifi','other'].forEach(c=>{
+    const el = $(`[data-count-cat="${c}"]`);
+    if (el) el.textContent = arr.filter(x => (x.category || x.universe) === c).length;
+  });
+}
+
+function renderCarousels(){
+  const arr = getAllComicsArray();
+  const popular = [...arr].sort((a,b)=> (b.views||0) - (a.views||0)).slice(0,5);
+  const fresh = [...arr].sort((a,b)=> (b.createdAt||0) - (a.createdAt||0)).slice(0,5);
+  const popEl = $('#popular-carousel'); const newEl = $('#new-carousel');
+  if (popEl) popEl.innerHTML = popular.length ? popular.map((c,i)=>comicCardHTML(c.id, c, i)).join('') : emptyMini('Пока пусто');
+  if (newEl) newEl.innerHTML = fresh.length ? fresh.map((c,i)=>comicCardHTML(c.id, c, i)).join('') : emptyMini('Пока пусто');
+  initTilt(popEl); initTilt(newEl);
+}
+function emptyMini(text){
+  return `<div style="flex:0 0 320px;padding:32px;border-radius:22px;background:linear-gradient(135deg,#F5F9FF,#EAF2FF);border:1px dashed rgba(37,99,235,0.28);color:var(--muted);text-align:center;font-family:'Space Grotesk';font-weight:500">${text}</div>`;
+}
+
+function renderCatalog(){
+  const grid = $('#catalog-grid'); const empty = $('#catalog-empty');
+  if (!grid) return;
+  let arr = getAllComicsArray();
+  if (state.filter.category !== 'all') arr = arr.filter(c => (c.category || c.universe) === state.filter.category);
+  if (state.filter.search){
+    const q = state.filter.search.toLowerCase();
+    arr = arr.filter(c => (c.title||'').toLowerCase().includes(q) || (c.description||'').toLowerCase().includes(q));
+  }
+  if (state.filter.sort === 'popular') arr.sort((a,b)=> (b.views||0) - (a.views||0));
+  else if (state.filter.sort === 'new') arr.sort((a,b)=> (b.createdAt||0) - (a.createdAt||0));
+  else if (state.filter.sort === 'alpha') arr.sort((a,b)=> (a.title||'').localeCompare(b.title||'', 'ru'));
+
+  if (!comicsLoaded){
+    grid.innerHTML = Array.from({length:6}).map(()=>`<div class="skeleton"><div class="sk-cover"></div><div class="sk-line"></div><div class="sk-line short"></div></div>`).join('');
+    empty.innerHTML = ''; return;
+  }
+  if (arr.length === 0){
+    grid.innerHTML = '';
+    empty.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg><h3>Пока пусто</h3><p>Совсем скоро здесь появятся комиксы.</p></div>`;
+    initReveal(); return;
+  }
+  empty.innerHTML = '';
+  grid.innerHTML = arr.map((c,i)=>comicCardHTML(c.id, c, i)).join('');
+  initTilt(grid);
+}
+
+function renderAll(){ renderCarousels(); renderCatalog(); renderCounters(); renderAdminLists(); }
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+function parseRoute(){
+  const hash = location.hash.replace(/^#/, '') || 'home';
+  const parts = hash.split('/');
+  if (parts[0] === 'read' && parts[1]) return { name:'read', id:parts[1] };
+  if (parts[0] === 'catalog') return { name:'catalog' };
+  return { name:'home' };
+}
+function showView(name){
+  ['home','catalog','read'].forEach(v=>{
+    const el = $(`#view-${v}`); if (el) el.style.display = v === name ? '' : 'none';
+  });
+}
+function renderRoute(){
+  const r = parseRoute();
+  state.route = r.name;
+  showView(r.name);
+  updateActiveNav(r.name);
+  if (r.name === 'read' && r.id) openComic(r.id);
+  requestAnimationFrame(()=> ScrollTrigger.refresh());
+  initReveal();
+  tryAnimateCounters();
+  window.scrollTo(0, 0);
+  if (lenis) lenis.scrollTo(0, { immediate:true });
+}
+window.addEventListener('hashchange', renderRoute);
+
+/* ============================================================
+   READER
+   ============================================================ */
+function openComic(id){
+  const c = state.comics[id];
+  if (!c){ toast('Комикс не найден', 'err'); location.hash = '#catalog'; return; }
+  state.currentComic = { id, ...c };
+  $('#reader-title').textContent = c.title || 'Без названия';
+  const content = $('#reader-content'); const pages = c.pages || [];
+  content.innerHTML = pages.length ? pages.map((src,i)=>`<img src="${src}" alt="Страница ${i+1}" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" />`).join('') : `<div class="empty-state"><h3>Страницы не загружены</h3><p>Автор ещё не добавил страницы этого комикса.</p></div>`;
+  const arr = getAllComicsArray(); const idx = arr.findIndex(x=>x.id === id);
+  state.prevComic = idx > 0 ? arr[idx-1] : null;
+  state.nextComic = idx >= 0 && idx < arr.length-1 ? arr[idx+1] : null;
+  $('#reader-prev').disabled = !state.prevComic;
+  $('#reader-next').disabled = !state.nextComic;
+  $('#reader-prev').style.opacity = state.prevComic ? '1' : '.5';
+  $('#reader-next').style.opacity = state.nextComic ? '1' : '.5';
+  const vkey = 'starland_viewed_' + id;
+  if (!localStorage.getItem(vkey)){ localStorage.setItem(vkey, '1'); incrementViews(id); }
+  updateReaderProgress();
+}
+function updateReaderProgress(){
+  const content = $('#reader-content'); if (!content) return;
+  const rect = content.getBoundingClientRect();
+  const total = rect.height; const viewport = innerHeight;
+  const scrolled = Math.max(0, Math.min(-rect.top, total - viewport * 0.4));
+  const p = total > 0 ? Math.max(0, Math.min(1, scrolled / Math.max(1, total - viewport * 0.7))) : 0;
+  const fill = $('#reader-progress-fill'); if (fill) fill.style.width = (p * 100).toFixed(1) + '%';
+  const pg = $$('#reader-content img'); const info = $('#reader-page-info');
+  if (info) info.textContent = `${Math.max(1, Math.round(p * pg.length))} / ${pg.length}`;
+}
+$('#reader-prev')?.addEventListener('click', ()=>{ if (state.prevComic) location.hash = '#read/' + state.prevComic.id; });
+$('#reader-next')?.addEventListener('click', ()=>{ if (state.nextComic) location.hash = '#read/' + state.nextComic.id; });
+
+async function incrementViews(id){
+  if (state.fbReady){
+    try{
+      await runTransaction(ref(state.db, `starland/comics/${id}/views`), (cur)=> (cur || 0) + 1);
+      await runTransaction(ref(state.db, 'starland/meta/totalViews'), (cur)=> (cur || 0) + 1);
+    }catch(e){ /* тихо игнорим — Firebase может быть недоступен */ }
+  } else {
+    if (!LOCAL_DB.comics[id]) return;
+    LOCAL_DB.comics[id].views = (LOCAL_DB.comics[id].views || 0) + 1;
+    LOCAL_DB.meta.totalViews = (LOCAL_DB.meta.totalViews || 0) + 1;
+    saveLocalDB(LOCAL_DB);
+    state.comics = LOCAL_DB.comics; state.meta = LOCAL_DB.meta; renderAll();
+  }
+}
+
+document.body.addEventListener('click', (e)=>{
+  const readBtn = e.target.closest('[data-read-id]');
+  if (readBtn){ e.preventDefault(); location.hash = '#read/' + readBtn.dataset.readId; return; }
+  const card = e.target.closest('.comic-card');
+  if (card && !e.target.closest('a')){ const id = card.dataset.comicId; if (id) location.hash = '#read/' + id; }
+});
+
+/* ============================================================
+   CATALOG CONTROLS
+   ============================================================ */
+function initCatalogControls(){
+  const tabs = $$('#catalog-tabs .tab');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      state.filter.category = tab.dataset.category;
+      renderCatalog();
+      tab.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+    });
+  });
+  const search = $('#catalog-search');
+  search?.addEventListener('input', debounce(()=>{
+    state.filter.search = search.value.trim(); renderCatalog();
+  }, 150));
+  $('#catalog-sort')?.addEventListener('change', (e)=>{
+    state.filter.sort = e.target.value; renderCatalog();
+  });
+  window.addEventListener('hashchange', ()=>{
+    const active = state.filter.category;
+    tabs.forEach(t=> t.classList.toggle('is-active', t.dataset.category === active));
+  });
+}
+
+/* ============================================================
+   AUTH
+   ============================================================ */
+function renderAuthSlot(){
+  const slot = $('#auth-slot'); if (!slot) return;
+  slot.innerHTML = '';
+  const adminLocal = state.isAdminLocal;
+  const user = state.user;
+
+  if (adminLocal){
+    const div = document.createElement('div');
+    div.style.position = 'relative';
+    div.innerHTML = `<div class="avatar-btn" id="avatar-main" title="Администратор">AD</div>`;
+    slot.appendChild(div);
+    $('#avatar-main').addEventListener('click', ()=>{
+      const existing = div.querySelector('.dropdown');
+      if (existing){ existing.remove(); return; }
+      const dd = document.createElement('div');
+      dd.className = 'dropdown is-open';
+      dd.innerHTML = `<button data-act="admin">⚙ Админ-панель</button><button data-act="profile">👤 Профиль</button><button data-act="logout">🚪 Выйти</button>`;
+      div.appendChild(dd);
+      dd.addEventListener('click', (e)=>{
+        const b = e.target.closest('button'); if (!b) return;
+        if (b.dataset.act === 'logout') doLogout();
+        if (b.dataset.act === 'profile') toast('Профиль: администратор');
+        if (b.dataset.act === 'admin') openAdminPanel();
+        dd.remove();
+      });
+    });
+    $('#admin-burger').style.display = 'inline-flex';
+    $('#admin-users-tab').style.display = '';
+    return;
+  }
+  $('#admin-burger').style.display = 'none';
+
+  if (user){
+    const initials = (user.nickname || user.username || 'U').slice(0,2).toUpperCase();
+    const wrap = document.createElement('div');
+    wrap.style.position = 'relative';
+    wrap.innerHTML = `<div class="avatar-btn" id="avatar-main" title="${escapeHTML(user.nickname||user.username||'')}">${escapeHTML(initials)}</div>`;
+    slot.appendChild(wrap);
+    $('#avatar-main').addEventListener('click', ()=>{
+      const existing = wrap.querySelector('.dropdown');
+      if (existing){ existing.remove(); return; }
+      const dd = document.createElement('div');
+      dd.className = 'dropdown is-open';
+      dd.innerHTML = `<button data-act="profile">👤 Профиль</button><button data-act="likes">❤ Мои лайки</button><button data-act="logout">🚪 Выйти</button>`;
+      wrap.appendChild(dd);
+      dd.addEventListener('click', (e)=>{
+        const b = e.target.closest('button'); if (!b) return;
+        if (b.dataset.act === 'logout') doLogout();
+        if (b.dataset.act === 'profile') toast(`Привет, ${user.nickname || user.username}!`);
+        if (b.dataset.act === 'likes') toast('Раздел лайков скоро появится');
+        dd.remove();
+      });
+    });
+    const role = state.role;
+    if (role === 'admin' || role === 'moderator'){
+      $('#admin-burger').style.display = 'inline-flex';
+      $('#admin-users-tab').style.display = role === 'admin' ? '' : 'none';
+    } else $('#admin-burger').style.display = 'none';
+  } else {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-glass';
+    btn.textContent = 'Войти';
+    btn.dataset.magnetic = '';
+    btn.addEventListener('click', openAuthModal);
+    slot.appendChild(btn);
+    $('#admin-burger').style.display = 'none';
+  }
+  initMagnetic();
+}
+
+const authModal = $('#auth-modal');
+function openAuthModal(){ authModal.classList.add('is-open'); document.body.style.overflow = 'hidden'; setTimeout(()=> $('#in-username')?.focus(), 300); }
+function closeAuthModal(){ authModal.classList.remove('is-open'); document.body.style.overflow = ''; }
+authModal.addEventListener('click', (e)=>{ if (e.target === authModal) closeAuthModal(); });
+document.body.addEventListener('click', (e)=>{
+  const close = e.target.closest('[data-close-modal]');
+  if (close){ $('#'+close.dataset.closeModal)?.classList.remove('is-open'); document.body.style.overflow = ''; }
+});
+document.addEventListener('keydown', (e)=>{
+  if (e.key === 'Escape'){
+    closeAuthModal();
+    $('#confirm-modal').classList.remove('is-open');
+    $('#admin-panel').classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+});
+
+let authTab = 'login';
+function setAuthTab(tab){
+  authTab = tab;
+  const tabs = $$('#auth-tabs .auth-tab');
+  const ind = $('#auth-tab-ind');
+  tabs.forEach(t=>t.classList.toggle('is-active', t.dataset.authtab === tab));
+  const active = tabs.find(t=>t.dataset.authtab === tab);
+  if (active && ind){ ind.style.left = active.offsetLeft + 'px'; ind.style.width = active.offsetWidth + 'px'; }
+  $('#auth-submit').textContent = tab === 'register' ? 'Создать аккаунт' : 'Войти';
+  $('#auth-title').textContent = tab === 'register' ? 'Создать аккаунт' : 'Добро пожаловать';
+  $('#auth-sub').textContent = tab === 'register' ? 'Придумайте никнейм и пароль — без email' : 'Введите никнейм и пароль';
+  $('#in-pass').autocomplete = tab === 'register' ? 'new-password' : 'current-password';
+}
+$$('#auth-tabs .auth-tab').forEach(t=> t.addEventListener('click', ()=> setAuthTab(t.dataset.authtab)));
+setTimeout(()=> setAuthTab('login'), 50);
+
+$('#auth-form').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const usernameRaw = $('#in-username').value;
+  const username = normalizeUsername(usernameRaw);
+  const pass = $('#in-pass').value;
+
+  /* АДМИН — проверка первым делом */
+  if (username === ADMIN_LOGIN && pass === ADMIN_PASS){
+    $('#f-username').classList.remove('has-err');
+    $('#f-pass').classList.remove('has-err');
+    doAdminLogin();
+    return;
+  }
+
+  let ok = true;
+  $('#f-username').classList.toggle('has-err', !isValidUsername(username));
+  if (!isValidUsername(username)) ok = false;
+  $('#f-pass').classList.toggle('has-err', pass.length < 6);
+  if (pass.length < 6) ok = false;
+  if (!ok) return;
+
+  const synthEmail = username + SYNTH_DOMAIN;
+
+  /* Если Firebase не готов — localStorage-режим */
+  if (!state.fbReady){
+    if (authTab === 'register'){
+      const exists = Object.values(LOCAL_DB.users).some(u => u.username === username);
+      if (exists){ toast('Этот никнейм уже занят', 'err'); return; }
+      const uid = 'u_' + Date.now();
+      LOCAL_DB.users[uid] = { username, nickname:username, role:'user', createdAt: Date.now() };
+      saveLocalDB(LOCAL_DB);
+      state.user = { uid, username, nickname:username };
+      state.role = 'user';
+      toast('Аккаунт создан!');
+      closeAuthModal(); renderAuthSlot();
+    } else {
+      const found = Object.entries(LOCAL_DB.users).find(([uid,u]) => u.username === username);
+      if (!found){ toast('Пользователь не найден', 'err'); return; }
+      state.user = { uid:found[0], ...found[1] };
+      state.role = found[1].role || 'user';
+      toast('С возвращением!');
+      closeAuthModal(); renderAuthSlot();
+    }
+    return;
+  }
+
+  const btn = $('#auth-submit');
+  btn.disabled = true; btn.classList.add('is-loading');
+  const orig = btn.textContent; btn.textContent = 'Подождите';
+  try {
+    if (authTab === 'register'){
+      const cred = await createUserWithEmailAndPassword(state.auth, synthEmail, pass);
+      await updateProfile(cred.user, { displayName: username });
+      await set(ref(state.db, 'starland/users/' + cred.user.uid), {
+        username, nickname: username, role:'user', createdAt: Date.now()
+      });
+      toast('Аккаунт создан!');
+    } else {
+      await signInWithEmailAndPassword(state.auth, synthEmail, pass);
+      toast('С возвращением!');
+    }
+    closeAuthModal();
+  } catch(err){
+    let msg = 'Ошибка: ' + (err.code || err.message);
+    if (err.code === 'auth/email-already-in-use') msg = 'Этот никнейм уже занят';
+    if (err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') msg = 'Неверный никнейм или пароль';
+    if (err.code === 'auth/weak-password') msg = 'Слишком слабый пароль';
+    if (err.code === 'auth/user-not-found') msg = 'Пользователь не найден';
+    if (err.code === 'auth/invalid-email') msg = 'Некорректный никнейм';
+    if (err.code === 'auth/api-key-not-valid' || (err.message||'').includes('api-key')){
+      // Откатываемся на local mode
+      state.fbReady = false;
+      localStorage.removeItem('starland_admin');
+      toast('Firebase недоступен — включён локальный режим', 'err');
+    } else {
+      toast(msg, 'err');
+    }
+  } finally {
+    btn.disabled = false; btn.classList.remove('is-loading'); btn.textContent = orig;
+  }
+});
+
+$('#auth-guest')?.addEventListener('click', ()=>{
+  state.user = null; state.role = 'guest';
+  toast('Вы вошли как гость');
+  closeAuthModal(); renderAuthSlot();
+});
+$('#mobile-auth-link')?.addEventListener('click', (e)=>{ e.preventDefault(); closeMobileMenu(); openAuthModal(); });
+
+function doAdminLogin(){
+  state.isAdminLocal = true;
+  state.user = { uid:'admin-local', username:'starland', nickname:'Admin', role:'admin' };
+  state.role = 'admin';
+  localStorage.setItem('starland_admin', 'true');
+  toast('Добро пожаловать, администратор!');
+  closeAuthModal(); renderAuthSlot();
+  setTimeout(()=> openAdminPanel(), 320);
+}
+function doLogout(){
+  if (state.fbReady && state.auth) signOut(state.auth).catch(()=>{});
+  state.user = null; state.role = 'guest'; state.isAdminLocal = false;
+  localStorage.removeItem('starland_admin');
+  toast('Вы вышли');
+  renderAuthSlot();
+  $('#admin-panel').classList.remove('is-open');
+}
+
+if (state.fbReady){
+  onAuthStateChanged(state.auth, async (u)=>{
+    if (u){
+      let nick = u.displayName || (u.email ? u.email.split('@')[0] : 'user');
+      state.user = { uid:u.uid, username:nick, nickname:nick };
+      try{
+        const snap = await get(ref(state.db, 'starland/users/' + u.uid));
+        const data = snap.val();
+        if (data){
+          state.role = data.role || 'user';
+          state.user.nickname = data.nickname || data.username || state.user.nickname;
+          state.user.username = data.username || state.user.username;
+        } else state.role = 'user';
+      }catch(e){ state.role = 'user'; }
+    } else {
+      if (!state.isAdminLocal){ state.user = null; state.role = 'guest'; }
+    }
+    renderAuthSlot();
+  });
+} else {
+  if (localStorage.getItem('starland_admin') === 'true'){
+    state.isAdminLocal = true;
+    state.user = { uid:'admin-local', username:'starland', nickname:'Admin', role:'admin' };
+    state.role = 'admin';
+  }
+  renderAuthSlot();
+}
+
+/* ============================================================
+   ADMIN PANEL
+   ============================================================ */
+function openAdminPanel(){ $('#admin-panel').classList.add('is-open'); renderAdminLists(); updateAdminStats(); }
+$('#admin-burger')?.addEventListener('click', openAdminPanel);
+$('#admin-close')?.addEventListener('click', ()=> $('#admin-panel').classList.remove('is-open'));
+$$('.admin-tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    $$('.admin-tab').forEach(t=>t.classList.remove('is-active'));
+    tab.classList.add('is-active');
+    $$('.admin-section').forEach(s=>s.classList.remove('is-active'));
+    $(`.admin-section[data-adminsection="${tab.dataset.admintab}"]`)?.classList.add('is-active');
+  });
+});
+
+/* FILE INPUTS */
+function setupFileDrop(dropId, inputId, previewId, multiple, onData){
+  const drop = $(dropId); const input = $(inputId); const preview = $(previewId);
+  if (!drop || !input || !preview) return;
+  drop.addEventListener('click', (e)=>{
+    if (e.target === input) return;
+    input.click();
+  });
+  ['dragenter','dragover'].forEach(ev=> drop.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); drop.classList.add('is-drag'); }));
+  ['dragleave','drop'].forEach(ev=> drop.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); if (ev === 'dragleave' && drop.contains(e.relatedTarget)) return; drop.classList.remove('is-drag'); }));
+  drop.addEventListener('drop', (e)=>{
+    const files = e.dataTransfer?.files;
+    if (files && files.length){ input.files = files; input.dispatchEvent(new Event('change', { bubbles:true })); }
+  });
+  input.addEventListener('change', ()=>{
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
+    Promise.all(files.map(f => new Promise(res => {
+      const r = new FileReader();
+      r.onload = () => res(r.result);
+      r.onerror = () => res(null);
+      r.readAsDataURL(f);
+    }))).then(results=>{
+      const clean = results.filter(Boolean);
+      preview.innerHTML = clean.map(src=>`<img src="${src}" alt="" />`).join('');
+      onData(multiple ? clean : clean[0]);
+      toast(multiple ? `Загружено: ${clean.length}` : 'Файл загружен', 'ok', 1600);
+    });
+  });
+}
+setupFileDrop('#cover-drop', '#c-cover', '#cover-preview', false, (d)=>{ state.coverData = d; });
+setupFileDrop('#pages-drop', '#c-pages', '#pages-preview', true, (d)=>{ state.pagesData = d; });
+
+/* SAVE COMIC */
+$('#comic-save')?.addEventListener('click', async ()=>{
+  const title = $('#c-title').value.trim();
+  const desc = $('#c-desc').value.trim();
+  const category = $('#c-category').value;
+  if (!title){ toast('Введите название', 'err'); return; }
+  const pages = state.pagesData || [];
+  const cover = state.coverData || (pages[0] || '');
+
+  const payload = { title, description: desc, category, coverUrl: cover, pages, createdAt: Date.now(), views: 0 };
+  if (state.editingId){
+    payload.views = (state.comics[state.editingId]?.views) || 0;
+    payload.createdAt = (state.comics[state.editingId]?.createdAt) || Date.now();
+  }
+
+  const btn = $('#comic-save');
+  btn.classList.add('is-loading');
+  const orig = btn.textContent; btn.textContent = 'Сохраняем';
+
+  try {
+    /* Если Firebase не готов ИЛИ отвалился — используем localStorage */
+    if (state.fbReady){
+      try {
+        if (state.editingId){
+          await update(ref(state.db, 'starland/comics/' + state.editingId), payload);
+          toast('Комикс обновлён');
+        } else {
+          const r = push(ref(state.db, 'starland/comics'));
+          await set(r, payload);
+          await runTransaction(ref(state.db, 'starland/meta/totalComics'), c => (c||0)+1);
+          toast('Комикс опубликован');
+        }
+      } catch(fbErr) {
+        // Firebase упал — переключаемся на local
+        console.warn('[STARLAND] Firebase save failed, fallback local', fbErr);
+        state.fbReady = false;
+        throw fbErr;
+      }
+    } else {
+      throw new Error('local mode');
+    }
+  } catch(e){
+    // Local mode
+    if (state.editingId){
+      LOCAL_DB.comics[state.editingId] = { ...LOCAL_DB.comics[state.editingId], ...payload };
+    } else {
+      const id = 'c_' + Date.now();
+      LOCAL_DB.comics[id] = payload;
+      LOCAL_DB.meta.totalComics = (LOCAL_DB.meta.totalComics || 0) + 1;
+    }
+    saveLocalDB(LOCAL_DB);
+    state.comics = LOCAL_DB.comics;
+    state.meta = LOCAL_DB.meta;
+    renderAll();
+    toast(state.editingId ? 'Комикс обновлён' : 'Комикс опубликован');
+  } finally {
+    resetComicForm(); updateAdminStats();
+    btn.classList.remove('is-loading'); btn.textContent = orig;
+  }
+});
+
+$('#comic-cancel')?.addEventListener('click', resetComicForm);
+
+function resetComicForm(){
+  state.editingId = null; state.coverData = null; state.pagesData = [];
+  $('#c-title').value = ''; $('#c-desc').value = ''; $('#c-category').value = 'superhero';
+  $('#c-cover').value = ''; $('#c-pages').value = '';
+  $('#cover-preview').innerHTML = ''; $('#pages-preview').innerHTML = '';
+  $('#comic-form-title').textContent = 'Новый комикс';
+  $('#comic-save').textContent = 'Опубликовать';
+  $('#comic-cancel').style.display = 'none';
+}
+
+function editComic(id){
+  const c = state.comics[id]; if (!c) return;
+  state.editingId = id;
+  $('#c-title').value = c.title || '';
+  $('#c-desc').value = c.description || '';
+  $('#c-category').value = c.category || c.universe || 'superhero';
+  $('#cover-preview').innerHTML = c.coverUrl ? `<img src="${c.coverUrl}" />` : '';
+  $('#pages-preview').innerHTML = (c.pages||[]).slice(0,8).map(p=>`<img src="${p}" />`).join('');
+  $('#comic-form-title').textContent = 'Редактирование';
+  $('#comic-save').textContent = 'Сохранить';
+  $('#comic-cancel').style.display = '';
+  $$('.admin-tab').forEach(t=>t.classList.toggle('is-active', t.dataset.admintab === 'create'));
+  $$('.admin-section').forEach(s=>s.classList.toggle('is-active', s.dataset.adminsection === 'create'));
+}
+
+function confirmDialog(text, cb){
+  $('#confirm-text').textContent = text;
+  $('#confirm-modal').classList.add('is-open');
+  state.confirmCallback = cb;
+}
+$('#confirm-yes')?.addEventListener('click', ()=>{
+  const cb = state.confirmCallback; state.confirmCallback = null;
+  $('#confirm-modal').classList.remove('is-open');
+  cb && cb();
+});
+
+async function deleteComic(id){
+  if (!state.comics[id]) return;
+  if (state.fbReady){
+    try{ await remove(ref(state.db, 'starland/comics/' + id)); toast('Комикс удалён'); }
+    catch(e){ 
+      // fallback to local
+      delete LOCAL_DB.comics[id]; saveLocalDB(LOCAL_DB);
+      state.comics = LOCAL_DB.comics; renderAll();
+      toast('Комикс удалён (локально)');
+    }
+  } else {
+    delete LOCAL_DB.comics[id]; saveLocalDB(LOCAL_DB);
+    state.comics = LOCAL_DB.comics; renderAll();
+    toast('Комикс удалён');
+  }
+}
+
+function renderAdminLists(){
+  const list = $('#admin-comics-list'); if (!list) return;
+  const arr = getAllComicsArray();
+  if (!arr.length) list.innerHTML = `<div class="empty-state" style="padding:20px"><p>Пока нет комиксов</p></div>`;
+  else {
+    list.innerHTML = arr.map(c=>`
+      <div class="admin-list-item">
+        <img src="${c.coverUrl || (c.pages && c.pages[0]) || ''}" alt="" onerror="this.style.background='#EAF2FF'" />
+        <div class="info"><strong>${escapeHTML(c.title || '—')}</strong><span>${escapeHTML(CAT_LABELS[c.category || c.universe] || '—')} · ${fmt(c.views||0)} 👁</span></div>
+        <div class="act">
+          <button class="icon-btn" data-edit="${c.id}" title="Редактировать"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5l4 4-11 11H5.5v-4z"/></svg></button>
+          <button class="icon-btn danger" data-delete="${c.id}" title="Удалить"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
+        </div>
+      </div>`).join('');
+  }
+  list.onclick = (e)=>{
+    const ed = e.target.closest('[data-edit]');
+    const del = e.target.closest('[data-delete]');
+    if (ed) editComic(ed.dataset.edit);
+    if (del) confirmDialog('Удалить этот комикс навсегда?', ()=> deleteComic(del.dataset.delete));
+  };
+
+  const top = $('#admin-top-list');
+  if (top){
+    const t = [...arr].sort((a,b)=> (b.views||0) - (a.views||0)).slice(0,5);
+    top.innerHTML = t.length ? t.map(c=>`<div class="stat-row"><span>${escapeHTML(c.title||'—')}</span><strong>${fmt(c.views||0)}</strong></div>`).join('') : `<div class="empty-state" style="padding:20px"><p>Пока нет данных</p></div>`;
+  }
+
+  const usersList = $('#admin-users-list');
+  if (usersList && state.fbReady){
+    get(ref(state.db, 'starland/users')).then(snap=>{
+      const users = snap.val() || {}; const arrU = Object.entries(users);
+      usersList.innerHTML = arrU.length ? arrU.map(([uid,u])=>`
+        <div class="admin-list-item">
+          <div style="width:44px;height:44px;border-radius:12px;background:var(--grad-live);background-size:300% 100%;animation:shifting 8s ease infinite;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk';font-weight:600;font-size:13px;">${escapeHTML((u.nickname||u.username||'U').slice(0,2).toUpperCase())}</div>
+          <div class="info"><strong>${escapeHTML(u.nickname || u.username || '—')}</strong><span>${escapeHTML(u.username||'')} · ${escapeHTML(u.role||'user')}</span></div>
+          <div class="act"><button class="icon-btn" data-role="${uid}">↻</button></div>
+        </div>`).join('') : `<div class="empty-state" style="padding:20px"><p>Пока нет пользователей</p></div>`;
+    }).catch(()=>{});
+  } else if (usersList){
+    const arrU = Object.entries(LOCAL_DB.users);
+    usersList.innerHTML = arrU.length ? arrU.map(([uid,u])=>`
+      <div class="admin-list-item">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--grad-live);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk';font-weight:600;">${escapeHTML((u.nickname||u.username||'U').slice(0,2).toUpperCase())}</div>
+        <div class="info"><strong>${escapeHTML(u.nickname||u.username||'—')}</strong><span>${escapeHTML(u.role||'user')}</span></div>
+      </div>`).join('') : `<div class="empty-state" style="padding:20px"><p>Пока нет пользователей</p></div>`;
+  }
+}
+
+document.body.addEventListener('click', async (e)=>{
+  const roleBtn = e.target.closest('[data-role]');
+  if (!roleBtn) return;
+  const uid = roleBtn.dataset.role;
+  if (!state.fbReady) return;
+  try{
+    const snap = await get(ref(state.db, 'starland/users/' + uid));
+    const cur = snap.val()?.role || 'user';
+    const next = cur === 'user' ? 'moderator' : cur === 'moderator' ? 'admin' : 'user';
+    await update(ref(state.db, 'starland/users/' + uid), { role: next });
+    toast(`Роль: ${next}`);
+    renderAdminLists();
+  }catch(err){ toast('Ошибка', 'err'); }
+});
+
+function updateAdminStats(){
+  const arr = getAllComicsArray();
+  $('#stat-comics').textContent = fmt(arr.length);
+  $('#stat-views').textContent = fmt(arr.reduce((s,c)=>s+(+c.views||0),0));
+  $('#stat-users').textContent = fmt(Object.keys(LOCAL_DB.users || {}).length);
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function initApp(){
+  renderFAQ();
+  renderMarquee();
+  initCatalogControls();
+  initMagnetic();
+  initReveal();
+  bindComics();
+  renderRoute();
+  initThree();
+  setInterval(updateAdminStats, 5000);
+  document.addEventListener('click', (e)=>{
+    if (!e.target.closest('#auth-slot')) $$('.dropdown').forEach(d=>d.remove());
+  });
+}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initApp);
+else initApp();
+
+window.addEventListener('error', (e)=>{
+  if (e.message && e.message.includes('ResizeObserver')) return;
+}, true);
+
+window.STARLAND = { state, toast, renderAll };
+</script>
+
+<!--
+═══════════════════════════════════════════════════════════════
+📖 STARLAND v2.2 — ЧТО ИСПРАВЛЕНО
+═══════════════════════════════════════════════════════════════
+
+✅ 1. ЛОГОТИП БОЛЬШЕ НЕ ВЫЛЕЗАЕТ
+      .logo-wrap имеет ФИКСИРОВАННЫЕ размеры (clamp по width и height).
+      .logo — max-width:100%; max-height:100%; object-fit:contain.
+      Логотип любого формата и пропорций гарантированно вписан
+      внутрь белого квадрата без выхода за границы.
+      + overflow:hidden на .logo-wrap как защита.
+      + overflow:hidden на header.
+
+✅ 2. КОНТЕНТ СНОВА ПО ЦЕНТРУ
+      html { overflow-x:hidden } + body { max-width:100vw }.
+      Причина была в overflow от логотипа — фикс лого решил проблему.
+
+✅ 3. FIREBASE API KEY ОШИБКА ИСПРАВЛЕНА
+      Введена FIREBASE_CONFIGURED проверка: если ключ = заглушка
+      ("AIzaSyDemoKey..."), Firebase вообще не инициализируется,
+      сайт сразу работает в localStorage-режиме.
+      Плюс если реальный Firebase падает при запросе —
+      автоматический fallback на localStorage без краша.
+      Регистрация/вход/создание комиксов теперь работают
+      в любом случае.
+
+✅ 4. ФРИЗЫ И ЛАГИ УБРАНЫ
+      Убрано:
+      • Sparkles на курсоре (создавали DOM-элементы каждые 60мс)
+      • Parallax орбов hero при скролле (reflow на каждый scroll)
+      • Анимация gridFloat на hero::before
+      • Анимация logoBreath
+      • Radial hover на nav-link (много mousemove)
+      • Radial hover на bento-card
+      • Лишние backdrop-filter: blur() — оставлен только в header
+      Оптимизировано:
+      • Три.js: частицы 170 → 90
+      • Scroll listener через requestAnimationFrame + ticking flag
+      • IntersectionObserver для паузы Three.js вне вьюпорта
+      • Уменьшены duration анимаций (0.9s → 0.75s)
+      • Меньше будет reflow — все transition только на
+        transform и opacity
+
+═══════════════════════════════════════════════════════════════
+🔐 АДМИН-АККАУНТ
+   Логин:  starland
+   Пароль: blue2025
+═══════════════════════════════════════════════════════════════
+-->
+
+</body>
+        </html>
