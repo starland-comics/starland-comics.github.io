@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+э<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
@@ -73,24 +73,53 @@ section{position:relative;padding:clamp(70px,9vw,140px) 0}
 @media (hover:none),(pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
 
 /* HEADER */
-header.site-header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(37,99,235,0.10);transition:box-shadow .35s ease}
+header.site-header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,0.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(37,99,235,0.10);transition:box-shadow .35s ease}
 header.site-header.is-scrolled{box-shadow:0 8px 30px rgba(37,99,235,0.10)}
 header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--grad-live);background-size:300% 100%;animation:shifting 8s ease infinite;opacity:.45}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:clamp(84px,10vw,116px)}
 
-/* LOGO — больше */
-.logo-wrap{display:inline-flex;align-items:center;justify-content:center;width:clamp(180px,26vw,290px);height:clamp(72px,9vw,100px);padding:8px 14px;background:#FFFFFF;border-radius:18px;box-shadow:0 6px 22px rgba(37,99,235,0.16), inset 0 0 0 1px rgba(37,99,235,0.08);cursor:pointer;flex-shrink:0;overflow:hidden;transition:transform .35s var(--ease-spring), box-shadow .35s ease}
+/* NAV — компактный, элементы гарантированно влезают */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;
+  height:clamp(74px,8vw,104px);
+}
+
+/* LOGO — жёсткие размеры, без clamp-процентов */
+.logo-wrap{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:250px;height:86px;
+  padding:8px 14px;
+  background:#FFFFFF;border-radius:20px;
+  box-shadow:0 6px 22px rgba(37,99,235,0.16), inset 0 0 0 1px rgba(37,99,235,0.08);
+  cursor:pointer;flex-shrink:1;min-width:0;overflow:hidden;
+  transition:transform .35s var(--ease-spring), box-shadow .35s ease;
+}
 .logo-wrap:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(37,99,235,0.26)}
-.logo{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;object-position:center;display:block;transform-origin:var(--l-origin,50% 50%);transform:scale(var(--l-scale,1));transition:transform .35s var(--ease);will-change:transform}
-.logo-wrap:hover .logo{transform:scale(calc(var(--l-scale,1) * 1.05))}
-.logo-fallback{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(20px,2.4vw,28px);letter-spacing:.04em;background:var(--grad-live);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:shifting 6s ease infinite}
-@media (max-width:520px){.logo-wrap{width:min(160px,46vw);height:60px;padding:6px 10px;border-radius:14px}}
+
+.logo{
+  max-width:100%;max-height:100%;
+  width:auto;height:auto;
+  object-fit:contain;object-position:center;
+  display:block;
+  transform-origin:var(--l-origin,50% 50%);
+  transform:scale(var(--l-scale, 1.15));
+  transition:transform .35s var(--ease);
+  will-change:transform;
+}
+.logo-wrap:hover .logo{transform:scale(calc(var(--l-scale, 1.15) * 1.04))}
+.logo-fallback{font-family:'Unbounded',sans-serif;font-weight:800;font-size:24px;letter-spacing:.04em;background:var(--grad-live);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;animation:shifting 6s ease infinite}
+
+@media (max-width:1200px){ .logo-wrap{width:220px;height:78px} }
+@media (max-width:1024px){ .logo-wrap{width:190px;height:70px;padding:6px 12px;border-radius:16px} }
+@media (max-width:768px){ .logo-wrap{width:160px;height:60px;padding:5px 10px;border-radius:14px} .logo-fallback{font-size:19px} }
+@media (max-width:480px){ .logo-wrap{width:130px;height:52px;padding:4px 8px;border-radius:12px} .logo-fallback{font-size:16px} }
 
 .nav-links{display:flex;align-items:center;gap:2px;flex-shrink:0}
 .nav-link{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:14px;padding:10px 16px;border-radius:12px;color:var(--ink);transition:background .25s ease, color .25s ease;position:relative;white-space:nowrap}
 .nav-link:hover{background:#EAF2FF;color:var(--blue)}
 .nav-link.is-active{color:var(--blue)}
 .nav-link.is-active::after{content:'';position:absolute;left:16px;right:16px;bottom:5px;height:2px;background:var(--grad-live);background-size:300% 100%;animation:shifting 6s ease infinite;border-radius:2px}
+
 .nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
 
 .tg-icon-btn{width:44px;height:44px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--tg-1),var(--tg-2));color:#fff;position:relative;box-shadow:0 6px 18px rgba(42,171,238,0.35);transition:transform .35s var(--ease-spring), box-shadow .35s ease;overflow:hidden;flex-shrink:0}
@@ -98,7 +127,6 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .tg-icon-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 12px 28px rgba(42,171,238,0.5)}
 .tg-icon-btn:hover::after{left:150%}
 .tg-icon-btn svg{width:20px;height:20px;fill:#fff;position:relative;z-index:1}
-@media (max-width:480px){.tg-icon-btn{width:40px;height:40px;border-radius:10px}.tg-icon-btn svg{width:18px;height:18px}}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;padding:12px 22px;border-radius:14px;transition:transform .3s var(--ease-spring), box-shadow .3s ease, background-color .3s ease, color .3s ease;position:relative;overflow:hidden;white-space:nowrap;will-change:transform;isolation:isolate}
 .btn:active{transform:scale(.97)}
@@ -110,8 +138,6 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .btn-primary:hover{box-shadow:0 18px 44px rgba(37,99,235,0.52);transform:translateY(-2px)}
 .btn-ghost{color:var(--ink)}
 .btn-ghost:hover{background:#EAF2FF;color:var(--blue)}
-.btn-danger{background:#FEE2E2;color:#DC2626}
-.btn-danger:hover{background:#DC2626;color:#fff}
 .btn .ripple{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,0.85),rgba(255,255,255,0));transform:translate(-50%,-50%) scale(0);animation:ripple .8s ease-out forwards;z-index:0}
 @keyframes ripple{to{transform:translate(-50%,-50%) scale(4);opacity:0}}
 .btn > *{position:relative;z-index:2}
@@ -119,7 +145,7 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .btn.is-loading::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;right:16px;top:50%;margin-top:-8px;animation:spinLocal 0.7s linear infinite;z-index:3}
 @keyframes spinLocal{to{transform:rotate(360deg)}}
 
-.avatar-btn{width:44px;height:44px;border-radius:50%;background:var(--grad-live);background-size:300% 100%;animation:shifting 8s ease infinite;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;box-shadow:0 6px 20px rgba(37,99,235,0.38);cursor:pointer;position:relative;transition:transform .35s var(--ease-spring)}
+.avatar-btn{width:44px;height:44px;border-radius:50%;background:var(--grad-live);background-size:300% 100%;animation:shifting 8s ease infinite;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:13px;box-shadow:0 6px 20px rgba(37,99,235,0.38);cursor:pointer;position:relative;transition:transform .35s var(--ease-spring);flex-shrink:0}
 .avatar-btn:hover{transform:scale(1.06)}
 
 .dropdown{position:absolute;top:calc(100% + 10px);right:0;min-width:220px;background:#fff;border:1px solid var(--border);border-radius:var(--r-md);box-shadow:0 24px 60px rgba(37,99,235,0.22);padding:6px;opacity:0;visibility:hidden;transform:translateY(-6px) scale(.96);transition:all .3s var(--ease-spring);transform-origin:top right;z-index:2000}
@@ -142,9 +168,27 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .admin-burger svg{width:18px;height:18px}
 @media (max-width:1024px){.nav-links{display:none}.burger{display:inline-flex}}
 
-.mobile-menu{position:fixed;inset:0;z-index:950;background:var(--grad-deep);padding:120px 6vw 40px;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease;overflow-y:auto}
+/* Мобильные размеры шапки — ВСЁ влезает */
+@media (max-width:768px){
+  .nav{height:66px;gap:6px}
+  .tg-icon-btn{width:38px;height:38px;border-radius:10px}
+  .tg-icon-btn svg{width:17px;height:17px}
+  .avatar-btn{width:38px;height:38px;font-size:12px}
+  .burger{width:38px;height:38px;border-radius:10px}
+  .admin-burger{width:38px;height:38px;border-radius:10px}
+  .admin-burger svg{width:16px;height:16px}
+  .nav-actions{gap:6px}
+  .nav-actions .btn-glass{padding:9px 14px;font-size:13px;border-radius:11px}
+}
+@media (max-width:480px){
+  .nav{height:60px;gap:4px}
+  .tg-icon-btn{display:none} /* Скрываем TG на маленьких экранах — есть в бургере */
+  .nav-actions .btn-glass{display:none} /* "Войти" скрываем — есть в бургере */
+}
+
+.mobile-menu{position:fixed;inset:0;z-index:950;background:var(--grad-deep);padding:100px 6vw 40px;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease;overflow-y:auto}
 .mobile-menu.is-open{opacity:1;visibility:visible}
-.mobile-menu a{position:relative;display:flex;align-items:center;gap:14px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(22px,5.5vw,34px);padding:16px 0;color:#FFFFFF;border-bottom:1px solid rgba(255,255,255,0.12);transform:translateY(20px);opacity:0;transition:transform .55s var(--ease-out), opacity .55s ease, color .25s ease;letter-spacing:-0.02em}
+.mobile-menu a{position:relative;display:flex;align-items:center;gap:14px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(20px,5.5vw,34px);padding:14px 0;color:#FFFFFF;border-bottom:1px solid rgba(255,255,255,0.12);transform:translateY(20px);opacity:0;transition:transform .55s var(--ease-out), opacity .55s ease, color .25s ease;letter-spacing:-0.02em}
 .mobile-menu.is-open a{transform:none;opacity:1}
 .mobile-menu a:hover{color:var(--cyan-soft)}
 .mobile-menu a:nth-child(1){transition-delay:.05s}
@@ -213,7 +257,6 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .comic-cover{position:relative;aspect-ratio:3/4.2;overflow:hidden;background:linear-gradient(135deg,#DDE9FF,#EAF2FF)}
 .comic-cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease-out)}
 .comic-card:hover .comic-cover img{transform:scale(1.06)}
-.comic-cat-tag{position:absolute;top:12px;left:12px;z-index:2;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,0.95);color:var(--blue-deep);box-shadow:0 4px 14px rgba(37,99,235,0.18)}
 .comic-body{padding:18px 20px 22px}
 .comic-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:18px;color:var(--blue-deep);margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.25}
 .comic-desc{color:var(--muted);font-size:13.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:14px;min-height:60px}
@@ -233,7 +276,7 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .sk-line.short{width:40%}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* HERO CARDS (superheroes) */
+/* HEROES (superheroes) */
 .heroes-grid{display:grid;gap:24px;grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:1100px){.heroes-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:800px){.heroes-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -244,28 +287,25 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .hero-card-photo{position:relative;aspect-ratio:1/1.1;overflow:hidden;background:linear-gradient(135deg,#DDE9FF,#EAF2FF)}
 .hero-card-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease-out)}
 .hero-card:hover .hero-card-photo img{transform:scale(1.06)}
-.hero-card-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,30,92,0.55) 0%,transparent 50%);opacity:.9;pointer-events:none}
 .hero-card-body{padding:18px 20px 22px}
 .hero-card-name{font-family:'Unbounded',sans-serif;font-weight:700;font-size:18px;color:var(--blue-deep);margin-bottom:6px;letter-spacing:-0.02em}
 .hero-card-desc{color:var(--muted);font-size:13.5px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.hero-card-count{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--blue);display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:#EAF2FF;border-radius:99px}
 
-/* HERO DETAIL PAGE */
+/* HERO DETAIL */
 .hero-detail{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,4vw,56px);margin-bottom:clamp(40px,5vw,70px);align-items:start}
 @media (max-width:900px){.hero-detail{grid-template-columns:1fr}}
 .hero-detail-photo{position:relative;border-radius:var(--r-lg);overflow:hidden;aspect-ratio:1/1.15;background:linear-gradient(135deg,#DDE9FF,#EAF2FF);box-shadow:var(--shadow-md)}
 .hero-detail-photo img{width:100%;height:100%;object-fit:cover;display:block}
-.hero-detail-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,30,92,0.35),transparent 50%);pointer-events:none}
 .hero-detail-info{display:flex;flex-direction:column;gap:22px}
 .hero-detail-info h1{font-size:clamp(30px,4vw,54px)}
 .hero-detail-info .desc{color:#3E5070;font-size:clamp(15px,1.2vw,17px);line-height:1.7;white-space:pre-wrap}
 .hero-detail-meta{display:flex;flex-wrap:wrap;gap:14px;padding-top:18px;border-top:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted)}
 .hero-detail-meta b{color:var(--blue-deep);font-weight:600}
-
 .hero-comics-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap}
 .hero-comics-head h2{font-size:clamp(22px,2.6vw,34px)}
-.hero-comics-count{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);padding:6px 14px;border-radius:99px;background:#EAF2FF;color:var(--blue-deep)}
+.hero-comics-count{font-family:'JetBrains Mono',monospace;font-size:12px;padding:6px 14px;border-radius:99px;background:#EAF2FF;color:var(--blue-deep)}
 
-/* Comic-mini for hero page */
 .comic-mini{flex:0 0 220px;scroll-snap-align:start;cursor:pointer;transition:transform .4s var(--ease-out)}
 .comic-mini:hover{transform:translateY(-6px)}
 .comic-mini .cm-cover{border-radius:16px;overflow:hidden;aspect-ratio:3/4.2;background:linear-gradient(135deg,#DDE9FF,#EAF2FF);box-shadow:0 8px 24px rgba(37,99,235,0.14)}
@@ -285,7 +325,7 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .faq-item.is-open .faq-a{max-height:500px;padding-bottom:22px}
 .faq-a p{padding:0 12px;color:var(--muted);font-size:14.5px;line-height:1.65;max-width:780px}
 
-/* BENTO + STEPS + CTA — оставлены */
+/* STEPS */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 @media (max-width:900px){.steps{grid-template-columns:1fr}}
 .step{position:relative;padding:32px 26px;border-radius:var(--r-lg);background:#fff;border:1px solid var(--border);transition:transform .4s var(--ease-out),box-shadow .4s ease,border-color .35s ease;overflow:hidden}
@@ -298,16 +338,18 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .step-mark{width:54px;height:54px;border-radius:18px;margin-bottom:20px;background:var(--grad-live);background-size:300% 100%;animation:shifting 8s ease infinite;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 12px 28px rgba(37,99,235,0.38)}
 .step-mark svg{width:26px;height:26px}
 
+/* BENTO */
 .bento{display:grid;gap:20px;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(140px,auto)}
 .bento-card{padding:28px;border-radius:var(--r-lg);background:#fff;border:1px solid var(--border);box-shadow:0 12px 40px rgba(37,99,235,0.08);transition:transform .4s var(--ease-out), box-shadow .4s ease, border-color .35s ease;position:relative;overflow:hidden}
 .bento-card:hover{transform:translateY(-5px);box-shadow:0 28px 70px rgba(37,99,235,0.18);border-color:var(--border-strong)}
 .bento-card h3{margin-bottom:10px;font-size:19px;color:var(--blue-deep)}
 .bento-card p{font-size:14.5px;line-height:1.6}
 .b1{grid-column:span 3;grid-row:span 2}
-.b2{grid-column:span 3}.b3{grid-column:span 3}.b4{grid-column:span 3}.b5{grid-column:span 3}
+.b2,.b3,.b4,.b5{grid-column:span 3}
 .b1::after{content:'500+';position:absolute;right:-10px;bottom:-24px;font-family:'Unbounded',sans-serif;font-weight:900;font-size:120px;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(37,99,235,0.12);letter-spacing:-0.05em;pointer-events:none}
 @media (max-width:900px){.bento{grid-template-columns:1fr}.bento-card{grid-column:auto !important;grid-row:auto !important}}
 
+/* CTA */
 .cta-block{text-align:center;padding:clamp(50px,7vw,100px) clamp(24px,4vw,60px);border-radius:var(--r-2xl);position:relative;overflow:hidden;background:var(--grad-deep);color:#fff;box-shadow:0 30px 80px rgba(15,30,92,0.35)}
 .cta-block h2{position:relative;z-index:1;color:#fff;margin-bottom:20px;font-size:clamp(28px,4.2vw,58px)}
 .cta-block h2 em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400;color:var(--cyan-soft)}
@@ -316,6 +358,7 @@ header.site-header::after{content:'';position:absolute;left:0;right:0;bottom:-1p
 .cta-block .btn{padding:16px 32px;font-size:15.5px;border-radius:18px;background:#FFFFFF;color:var(--blue-deep);box-shadow:0 16px 40px rgba(0,0,0,0.24);animation:none}
 .cta-block .btn:hover{background:#FFFFFF;color:var(--blue);transform:translateY(-3px)}
 
+/* FOOTER */
 footer{padding:60px 0 40px;margin-top:70px;background:linear-gradient(180deg,#F5F9FF 0%,#FFFFFF 100%);border-top:1px solid var(--border);position:relative}
 footer::before{content:'';position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--grad-live);background-size:300% 100%;animation:shifting 10s ease infinite;opacity:.55}
 .foot-grid{display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
@@ -330,9 +373,9 @@ footer a:hover{color:var(--blue)}
 .foot-tg-btn svg{width:16px;height:16px;fill:#fff}
 .foot-bottom{padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:12.5px;font-family:'JetBrains Mono',monospace}
 
-/* CATALOG */
+/* VIEWS */
 #view-catalog,#view-read,#view-heroes,#view-hero{padding-top:clamp(30px,4vw,60px);min-height:100vh}
-.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:16px;border-radius:var(--r-lg);background:#fff;border:1px solid var(--border);box-shadow:0 8px 24px rgba(37,99,235,0.08);margin-bottom:32px;position:sticky;top:calc(clamp(84px,10vw,116px) + 10px);z-index:80}
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:16px;border-radius:var(--r-lg);background:#fff;border:1px solid var(--border);box-shadow:0 8px 24px rgba(37,99,235,0.08);margin-bottom:32px;position:sticky;top:calc(clamp(74px,8vw,104px) + 10px);z-index:80}
 .search-box{flex:1;min-width:200px;position:relative}
 .search-box input{width:100%;padding:12px 16px 12px 42px;border-radius:12px;background:#F5F9FF;border:1px solid var(--border);font-size:14px;color:var(--ink);transition:border-color .3s ease, box-shadow .3s ease, background .3s ease}
 .search-box input:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.12)}
@@ -348,7 +391,7 @@ footer a:hover{color:var(--blue)}
 .empty-state p{max-width:400px;margin-inline:auto}
 
 /* READER */
-.reader-top{position:sticky;top:calc(clamp(84px,10vw,116px));z-index:80;display:flex;align-items:center;gap:16px;padding:12px 18px;border-radius:var(--r-md);background:#fff;border:1px solid var(--border);box-shadow:0 12px 36px rgba(37,99,235,0.14);margin-bottom:32px}
+.reader-top{position:sticky;top:calc(clamp(74px,8vw,104px));z-index:80;display:flex;align-items:center;gap:16px;padding:12px 18px;border-radius:var(--r-md);background:#fff;border:1px solid var(--border);box-shadow:0 12px 36px rgba(37,99,235,0.14);margin-bottom:32px}
 .reader-top .back{display:inline-flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:13.5px;padding:9px 16px;border-radius:10px;color:var(--blue);background:#EAF2FF;transition:background .3s ease, transform .35s var(--ease-spring)}
 .reader-top .back:hover{background:#D3E2FF;transform:translateX(-2px)}
 .reader-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14.5px;color:var(--blue-deep);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -387,12 +430,11 @@ footer a:hover{color:var(--blue)}
 .lb-arrow svg{width:22px;height:22px}
 .lb-prev{left:20px}.lb-next{right:20px}
 @media (max-width:600px){.lb-arrow{width:46px;height:46px}.lb-prev{left:10px}.lb-next{right:10px}.lb-close{top:12px;right:12px;width:42px;height:42px}}
-
 .lb-toolbar{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:99px;background:rgba(15,30,92,0.65);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.14);color:#fff}
 .lb-toolbar button{width:38px;height:38px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;transition:background .25s ease, transform .25s var(--ease-spring)}
 .lb-toolbar button:hover{background:rgba(37,99,235,0.5);transform:scale(1.08)}
 .lb-toolbar .lb-val{font-family:'JetBrains Mono',monospace;font-size:13px;min-width:52px;text-align:center;letter-spacing:.02em}
-.lb-info{position:absolute;top:22px;left:50%;transform:translateX(-50%);z-index:5;padding:8px 18px;border-radius:99px;background:rgba(15,30,92,0.65);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.14);color:#fff;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.04em}
+.lb-info{position:absolute;top:22px;left:50%;transform:translateX(-50%);z-index:5;padding:8px 18px;border-radius:99px;background:rgba(15,30,92,0.65);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.14);color:#fff;font-family:'JetBrains Mono',monospace;font-size:13px}
 @media (max-width:600px){.lb-info{top:14px;font-size:12px;padding:6px 14px}.lb-toolbar{bottom:14px;padding:6px 10px}.lb-toolbar button{width:34px;height:34px}}
 
 .to-top{position:fixed;bottom:24px;right:24px;z-index:90;width:52px;height:52px;border-radius:50%;background:var(--grad-live);background-size:300% 100%;animation:shifting 8s ease infinite;color:#fff;box-shadow:0 12px 32px rgba(37,99,235,0.44);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(16px) scale(.9);transition:all .4s var(--ease-spring)}
@@ -437,7 +479,7 @@ footer a:hover{color:var(--blue)}
 .modal-actions .btn{width:100%;padding:14px}
 
 /* ADMIN PANEL */
-.admin-panel{position:fixed;top:0;right:0;height:100vh;width:min(460px,94vw);z-index:1500;background:#FFFFFF;border-left:1px solid var(--border);box-shadow:-30px 0 80px rgba(37,99,235,0.22);transform:translateX(105%);transition:transform .5s var(--ease-out);overflow-y:auto;padding:24px}
+.admin-panel{position:fixed;top:0;right:0;height:100vh;width:min(480px,96vw);z-index:1500;background:#FFFFFF;border-left:1px solid var(--border);box-shadow:-30px 0 80px rgba(37,99,235,0.22);transform:translateX(105%);transition:transform .5s var(--ease-out);overflow-y:auto;padding:24px}
 .admin-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad-live);background-size:300% 100%;animation:shifting 6s ease infinite}
 .admin-panel.is-open{transform:none}
 .admin-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
@@ -454,13 +496,11 @@ footer a:hover{color:var(--blue)}
 
 .admin-section{display:none}
 .admin-section.is-active{display:block}
-.admin-subhead{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--blue-deep);margin:16px 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.12em}
+.admin-subhead{font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--blue-deep);margin:16px 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.12em}
 
 .admin-panel .field{margin-bottom:12px}
 .admin-panel .field textarea{width:100%;padding:14px;border-radius:12px;background:#F5F9FF;border:1px solid var(--border);font-size:14px;color:var(--ink);resize:vertical;min-height:90px;font-family:'Inter',sans-serif;transition:border-color .3s ease, box-shadow .3s ease, background .3s ease}
 .admin-panel .field textarea:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.12)}
-.admin-panel .field select{width:100%;padding:12px 14px;border-radius:12px;background:#F5F9FF;border:1px solid var(--border);font-size:14px;color:var(--ink);font-family:'Space Grotesk',sans-serif;cursor:pointer;transition:border-color .3s ease}
-.admin-panel .field select:focus{border-color:var(--blue);background:#fff}
 .admin-panel .field input[type="text"]{width:100%;padding:12px 14px;border-radius:12px;background:#F5F9FF;border:1px solid var(--border);font-size:14px;color:var(--ink);transition:border-color .3s ease, box-shadow .3s ease, background .3s ease}
 .admin-panel .field input[type="text"]:focus{background:#fff;border-color:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,0.12)}
 .admin-panel .field label.static{display:block;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:11px;color:var(--blue-deep);text-transform:uppercase;letter-spacing:.12em;margin-bottom:6px}
@@ -474,12 +514,50 @@ footer a:hover{color:var(--blue)}
 
 .thumb-preview{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .thumb-preview img{width:60px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--border);box-shadow:0 3px 10px rgba(37,99,235,0.10)}
+.thumb-preview img.hero-photo{width:80px;height:80px;border-radius:50%}
 
-.heroes-picker{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px;background:#F5F9FF;border:1px solid var(--border);border-radius:12px;max-height:220px;overflow-y:auto}
-.heroes-picker label{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;cursor:pointer;font-size:13px;transition:background .2s ease;color:var(--ink)}
-.heroes-picker label:hover{background:#fff}
-.heroes-picker input[type="checkbox"]{width:16px;height:16px;accent-color:var(--blue);cursor:pointer}
-.heroes-picker img{width:24px;height:24px;border-radius:50%;object-fit:cover;flex-shrink:0}
+/* COMICS PICKER (для формы супергероя) */
+.comics-picker{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  padding:12px;background:#F5F9FF;border:1px solid var(--border);
+  border-radius:12px;max-height:320px;overflow-y:auto;
+}
+.comics-picker label{
+  display:flex;flex-direction:column;gap:6px;cursor:pointer;
+  font-size:11px;text-align:center;color:var(--muted);
+  transition:transform .25s var(--ease);padding:4px;border-radius:10px;
+  font-family:'Space Grotesk',sans-serif;
+}
+.comics-picker label:hover{transform:translateY(-2px)}
+.comics-picker input[type="checkbox"]{display:none}
+.comics-picker .cm-thumb{
+  position:relative;width:100%;aspect-ratio:3/4;border-radius:10px;
+  overflow:hidden;background:var(--grad-deep);
+  box-shadow:0 4px 12px rgba(37,99,235,0.10);
+  transition:box-shadow .3s ease, outline .3s ease;
+  outline:2px solid transparent;outline-offset:2px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-family:'Unbounded',font-weight:800;font-size:22px;
+}
+.comics-picker .cm-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.comics-picker input:checked + .cm-thumb{
+  outline-color:var(--blue);
+  box-shadow:0 8px 24px rgba(37,99,235,0.35);
+}
+.comics-picker input:checked + .cm-thumb::after{
+  content:'✓';
+  position:absolute;top:6px;right:6px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--blue);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;
+  box-shadow:0 4px 12px rgba(37,99,235,0.5);
+  font-family:'Inter',sans-serif;
+}
+.comics-picker .cm-name{
+  font-weight:500;line-height:1.2;color:var(--ink);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
 
 .admin-list-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:#fff;border:1px solid var(--border);margin-bottom:8px;transition:box-shadow .3s ease, border-color .3s ease}
 .admin-list-item:hover{box-shadow:0 8px 22px rgba(37,99,235,0.12);border-color:var(--border-strong)}
@@ -499,7 +577,7 @@ footer a:hover{color:var(--blue)}
 .stat-row strong{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:16px;color:var(--blue-deep)}
 .stat-row span{color:var(--muted);font-size:12.5px}
 
-.toasts{position:fixed;top:120px;right:20px;z-index:5000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toasts{position:fixed;top:110px;right:20px;z-index:5000;display:flex;flex-direction:column;gap:10px;pointer-events:none}
 .toast{display:flex;align-items:center;gap:10px;padding:13px 18px;border-radius:14px;min-width:240px;max-width:360px;background:#fff;border:1px solid var(--border);box-shadow:0 14px 40px rgba(37,99,235,0.20);transform:translateX(140%);opacity:0;transition:transform .5s var(--ease-spring), opacity .5s ease;pointer-events:auto;font-size:14px;color:var(--ink)}
 .toast.is-visible{transform:none;opacity:1}
 .toast .ic{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--grad-live);background-size:300% 100%;animation:shifting 8s ease infinite;color:#fff}
@@ -536,7 +614,7 @@ footer a:hover{color:var(--blue)}
 <header class="site-header" id="site-header">
   <div class="container nav">
     <div class="logo-wrap" data-nav="#home" aria-label="STARLAND — на главную">
-      <img class="logo" id="site-logo" src="logo.png" alt="STARLAND" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" crossorigin="anonymous" />
+      <img class="logo" id="site-logo" src="logo.png" alt="STARLAND" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
       <span class="logo-fallback" style="display:none">STARLAND</span>
     </div>
     <nav class="nav-links" aria-label="Основная навигация">
@@ -550,7 +628,7 @@ footer a:hover{color:var(--blue)}
       <a class="tg-icon-btn" href="https://t.me/starlandstudios" target="_blank" rel="noopener" aria-label="Telegram">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.62 3.72-.53.36-1.01.54-1.43.53-.47-.01-1.38-.27-2.05-.49-.83-.27-1.49-.42-1.43-.88.03-.24.36-.49.99-.74 3.86-1.68 6.43-2.79 7.72-3.32 3.68-1.53 4.44-1.79 4.94-1.8.11 0 .36.03.52.16.14.11.18.27.2.38.02.11.05.37.03.53z"/></svg>
       </a>
-      <div id="auth-slot" style="position:relative;display:flex;gap:10px;align-items:center;"></div>
+      <div id="auth-slot" style="position:relative;display:flex;gap:8px;align-items:center;"></div>
       <button class="admin-burger" id="admin-burger" style="display:none" aria-label="Админ-панель">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
@@ -578,14 +656,12 @@ footer a:hover{color:var(--blue)}
 </a>
 
 <main id="app">
-
-  <!-- HOME -->
   <section class="view" id="view-home" style="padding-top:0;padding-bottom:0">
     <div id="hero">
       <div class="container">
         <div class="hero-grid">
           <div class="hero-copy">
-            <div class="hero-tag"><span class="pulse"></span>STARLAND Studios · v2.4</div>
+            <div class="hero-tag"><span class="pulse"></span>STARLAND Studios · v2.5</div>
             <h1 id="hero-title" aria-label="STARLAND — библиотека комиксов">STARLAND — библиотека комиксов нового поколения</h1>
             <p class="sub">Собственные вселенные, авторские истории и герои. Читай онлайн — <span class="hand-note">бесплатно</span>, без рекламы, без регистрации.</p>
             <div class="hero-cta">
@@ -715,7 +791,6 @@ footer a:hover{color:var(--blue)}
     </section>
   </section>
 
-  <!-- CATALOG (Комиксы) -->
   <section class="view" id="view-catalog" style="display:none">
     <div class="container">
       <div class="section-head" data-reveal><span class="eyebrow">Комиксы</span>
@@ -737,7 +812,6 @@ footer a:hover{color:var(--blue)}
     </div>
   </section>
 
-  <!-- HEROES LIST -->
   <section class="view" id="view-heroes" style="display:none">
     <div class="container">
       <div class="section-head" data-reveal><span class="eyebrow">Супергерои</span>
@@ -748,7 +822,6 @@ footer a:hover{color:var(--blue)}
     </div>
   </section>
 
-  <!-- HERO DETAIL -->
   <section class="view" id="view-hero" style="display:none">
     <div class="container">
       <div class="reader-top" style="margin-bottom:24px">
@@ -762,7 +835,6 @@ footer a:hover{color:var(--blue)}
     </div>
   </section>
 
-  <!-- READER -->
   <section class="view" id="view-read" style="display:none">
     <div class="container">
       <div class="reader-top">
@@ -833,7 +905,6 @@ footer a:hover{color:var(--blue)}
   <svg class="ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" stroke-dasharray="175.9" stroke-dashoffset="175.9" id="to-top-ring"/></svg>
 </button>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <div class="lb-info" id="lb-info">1 / 1</div>
   <button type="button" class="lb-close" id="lb-close" aria-label="Закрыть">
@@ -856,7 +927,6 @@ footer a:hover{color:var(--blue)}
   </div>
 </div>
 
-<!-- AUTH -->
 <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true">
   <div class="modal">
     <button type="button" class="modal-close" data-close-modal="auth-modal" aria-label="Закрыть">
@@ -892,7 +962,6 @@ footer a:hover{color:var(--blue)}
   </div>
 </div>
 
-<!-- CONFIRM -->
 <div class="modal-backdrop" id="confirm-modal" role="dialog" aria-modal="true">
   <div class="modal" style="max-width:400px">
     <h3 id="confirm-title">Подтвердите действие</h3>
@@ -904,7 +973,6 @@ footer a:hover{color:var(--blue)}
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
 <aside class="admin-panel" id="admin-panel" aria-label="Админ-панель">
   <div class="admin-head">
     <h3>Админ-панель</h3>
@@ -919,7 +987,7 @@ footer a:hover{color:var(--blue)}
     <button type="button" class="admin-tab" data-admintab="users" id="admin-users-tab">Юзеры</button>
   </div>
 
-  <!-- COMICS SECTION -->
+  <!-- COMICS -->
   <div class="admin-section is-active" data-adminsection="comics">
     <div style="display:flex;gap:8px;margin-bottom:16px">
       <button type="button" class="btn btn-glass" id="comics-tab-new" style="flex:1">➕ Создать</button>
@@ -930,7 +998,7 @@ footer a:hover{color:var(--blue)}
       <h4 class="admin-subhead" id="comic-form-title">Новый комикс</h4>
       <div class="field"><label class="static">Название</label><input type="text" id="c-title" placeholder="Например, Полночный страж" /></div>
       <div class="field"><label class="static">Краткое описание</label><textarea id="c-desc" placeholder="1–2 предложения для карточки..."></textarea></div>
-      <div class="field"><label class="static">Предыстория (полный текст для читалки)</label><textarea id="c-backstory" style="min-height:120px" placeholder="Развёрнутая предыстория — покажется читателю перед страницами комикса..."></textarea></div>
+      <div class="field"><label class="static">Предыстория (для читалки)</label><textarea id="c-backstory" style="min-height:120px" placeholder="Развёрнутая предыстория — покажется читателю перед страницами..."></textarea></div>
       <div class="field"><label class="static">Обложка</label>
         <div class="file-drop" id="cover-drop">
           <input type="file" id="c-cover" accept="image/*" />
@@ -947,12 +1015,6 @@ footer a:hover{color:var(--blue)}
         </div>
         <div class="thumb-preview" id="pages-preview"></div>
       </div>
-      <div class="field">
-        <label class="static">Супергерои в комиксе</label>
-        <div class="heroes-picker" id="comic-heroes-picker">
-          <div style="grid-column:1/-1;color:var(--muted);font-size:12.5px;text-align:center;padding:8px">Сначала создай супергероев</div>
-        </div>
-      </div>
       <div class="modal-actions">
         <button type="button" class="btn btn-primary" id="comic-save">Опубликовать</button>
         <button type="button" class="btn btn-ghost" id="comic-cancel" style="display:none">Отменить редактирование</button>
@@ -965,7 +1027,7 @@ footer a:hover{color:var(--blue)}
     </div>
   </div>
 
-  <!-- HEROES SECTION -->
+  <!-- HEROES -->
   <div class="admin-section" data-adminsection="heroes">
     <div style="display:flex;gap:8px;margin-bottom:16px">
       <button type="button" class="btn btn-glass" id="heroes-tab-new" style="flex:1">➕ Создать</button>
@@ -975,7 +1037,7 @@ footer a:hover{color:var(--blue)}
     <div id="heroes-create-view">
       <h4 class="admin-subhead" id="hero-form-title">Новый супергерой</h4>
       <div class="field"><label class="static">Имя</label><input type="text" id="h-name" placeholder="Например, Космический Страж" /></div>
-      <div class="field"><label class="static">Описание</label><textarea id="h-desc" style="min-height:140px" placeholder="Подробная информация о персонаже: способности, история, характер..."></textarea></div>
+      <div class="field"><label class="static">Описание</label><textarea id="h-desc" style="min-height:120px" placeholder="Способности, история, характер..."></textarea></div>
       <div class="field"><label class="static">Фотография</label>
         <div class="file-drop" id="hero-photo-drop">
           <input type="file" id="h-photo" accept="image/*" />
@@ -983,6 +1045,13 @@ footer a:hover{color:var(--blue)}
           <p>PNG, JPG · портрет</p>
         </div>
         <div class="thumb-preview" id="hero-photo-preview"></div>
+      </div>
+      <div class="field">
+        <label class="static">В каких комиксах участвует</label>
+        <div class="comics-picker" id="hero-comics-picker">
+          <div style="grid-column:1/-1;color:var(--muted);font-size:12.5px;text-align:center;padding:8px">Сначала создайте комиксы</div>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin-top:8px;font-family:'Space Grotesk'">Отметьте те комиксы, в которых появляется этот герой. Они покажутся на его странице.</p>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn btn-primary" id="hero-save">Опубликовать</button>
@@ -1060,10 +1129,10 @@ const state = {
   filter:{ search:'', sort:'popular' },
   route:'home', currentComic:null, currentHero:null,
   prevComic:null, nextComic:null,
-  editingComicId:null, coverData:null, pagesData:[], selectedHeroIds:[],
-  editingHeroId:null, heroPhotoData:null,
+  editingComicId:null, coverData:null, pagesData:[],
+  editingHeroId:null, heroPhotoData:null, selectedHeroComicIds:[],
   confirmCallback:null,
-  lightbox:{ pages:[], index:0, zoom:1, tx:0, ty:0, isDragging:false, dragStartX:0, dragStartY:0, startTx:0, startTy:0, lastPinchDist:0 }
+  lightbox:{ pages:[], index:0, zoom:1, tx:0, ty:0, isDragging:false, dragStartX:0, dragStartY:0, startTx:0, startTy:0, lastPinchDist:0, isOpen:false }
 };
 
 const localKey = 'starland_local_db';
@@ -1341,7 +1410,6 @@ function initTilt(root=document){
   });
 }
 
-/* THREE.JS */
 function initThree(){
   const canvas = $('#three-canvas'); const wrap = $('#hero-3d-wrap');
   if (!canvas || !wrap) return;
@@ -1422,7 +1490,7 @@ function initThree(){
   start();
 }
 
-/* AUTO CROP LOGO */
+/* AUTO CROP LOGO — без crossorigin, работает на same-origin */
 function autoCropLogo(imgEl){
   if (!imgEl) return;
   const process = function(){
@@ -1455,7 +1523,7 @@ function autoCropLogo(imgEl){
       const vw = (right - left + 1) / cw;
       const vh = (bottom - top + 1) / ch;
       const scale = 1 / Math.max(vw, vh);
-      const clampedScale = Math.min(scale, 4.0);
+      const clampedScale = Math.min(scale, 4.5);
       const cx = ((left + (right - left + 1) / 2) / cw) * 100;
       const cy = ((top + (bottom - top + 1) / 2) / ch) * 100;
       this.style.setProperty('--l-scale', clampedScale.toFixed(3));
@@ -1497,6 +1565,8 @@ function comicCardHTML(id, c, idx=0){
 function heroCardHTML(id, h, idx=0){
   const photo = h.photoUrl || '';
   const delay = Math.min(idx*0.05, 0.5);
+  const comicsCount = Array.isArray(h.comics) ? h.comics.length : 0;
+  const countBadge = comicsCount > 0 ? `<div class="hero-card-count">📚 ${comicsCount} ${comicsCount===1?'комикс':comicsCount<5?'комикса':'комиксов'}</div>` : '';
   const photoImg = photo
     ? `<img src="${photo}" alt="${escapeHTML(h.name||'Герой')}" loading="lazy" />`
     : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--grad-deep);color:#fff;font-family:'Unbounded';font-size:64px;font-weight:900;">${escapeHTML((h.name||'?').slice(0,1).toUpperCase())}</div>`;
@@ -1505,6 +1575,7 @@ function heroCardHTML(id, h, idx=0){
     <div class="hero-card-body">
       <h3 class="hero-card-name">${escapeHTML(h.name || 'Без имени')}</h3>
       <p class="hero-card-desc">${escapeHTML(h.description || 'Описание скоро появится.')}</p>
+      ${countBadge}
     </div></article>`;
 }
 
@@ -1604,9 +1675,9 @@ function openHero(id){
   if (!h){ toast('Герой не найден','err'); location.hash='#heroes'; return; }
   state.currentHero = {id, ...h};
   $('#hero-detail-title').textContent = h.name || '—';
-  const arr = getAllComicsArray();
-  const relatedComics = arr.filter(c => Array.isArray(c.heroes) && c.heroes.includes(id))
-    .sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const allComics = getAllComicsArray();
+  const heroComicIds = Array.isArray(h.comics) ? h.comics : [];
+  const relatedComics = heroComicIds.map(cid => allComics.find(c=>c.id===cid)).filter(Boolean);
   const photo = h.photoUrl || '';
   const photoHTML = photo
     ? `<img src="${photo}" alt="${escapeHTML(h.name||'')}" />`
@@ -1652,7 +1723,7 @@ function renderAll(){
   renderHeroesGrid();
   renderAdminLists();
   renderAdminHeroesList();
-  updateComicsPicker();
+  renderHeroComicsPicker();
 }
 
 /* ROUTER */
@@ -1691,13 +1762,11 @@ function openComic(id){
   if (!c){ toast('Комикс не найден','err'); location.hash='#catalog'; return; }
   state.currentComic = {id,...c};
   $('#reader-title').textContent = c.title || 'Без названия';
-  // backstory
   const bsSlot = $('#reader-backstory-slot');
   const bs = (c.backstory || '').trim();
   if (bs){
     bsSlot.innerHTML = `<div class="reader-backstory"><h3>Предыстория</h3><p>${escapeHTML(bs).replace(/\n/g,'<br/>')}</p></div>`;
   } else bsSlot.innerHTML = '';
-  // pages
   const content = $('#reader-content');
   const pages = c.pages || [];
   if (!pages.length){
@@ -1748,7 +1817,6 @@ async function incrementViews(id){
   }
 }
 
-/* CARD CLICK */
 document.body.addEventListener('click',(e)=>{
   const readBtn = e.target.closest('[data-read-id]');
   if (readBtn){ e.preventDefault(); location.hash = '#read/'+readBtn.dataset.readId; return; }
@@ -1760,7 +1828,6 @@ document.body.addEventListener('click',(e)=>{
   if (card && !e.target.closest('a')){ const id = card.dataset.comicId; if (id) location.hash = '#read/'+id; }
 });
 
-/* CATALOG CONTROLS */
 function initCatalogControls(){
   const search = $('#catalog-search');
   search?.addEventListener('input', debounce(()=>{
@@ -1990,14 +2057,12 @@ $$('.admin-tab').forEach(tab=>{
   });
 });
 
-// Comics section sub-tabs
 $('#comics-tab-new')?.addEventListener('click', ()=>{ $('#comics-create-view').style.display=''; $('#comics-edit-view').style.display='none'; });
 $('#comics-tab-edit')?.addEventListener('click', ()=>{ $('#comics-create-view').style.display='none'; $('#comics-edit-view').style.display=''; });
 $('#heroes-tab-new')?.addEventListener('click', ()=>{ $('#heroes-create-view').style.display=''; $('#heroes-edit-view').style.display='none'; });
 $('#heroes-tab-edit')?.addEventListener('click', ()=>{ $('#heroes-create-view').style.display='none'; $('#heroes-edit-view').style.display=''; });
 
-/* FILE DROP */
-function setupFileDrop(dropId, inputId, previewId, multiple, onData){
+function setupFileDrop(dropId, inputId, previewId, multiple, onData, isHeroPhoto=false){
   const drop = $(dropId); const input = $(inputId); const preview = $(previewId);
   if (!drop || !input || !preview) return;
   drop.addEventListener('click',(e)=>{ if (e.target === input) return; input.click(); });
@@ -2011,7 +2076,7 @@ function setupFileDrop(dropId, inputId, previewId, multiple, onData){
       const r = new FileReader(); r.onload = ()=>res(r.result); r.onerror = ()=>res(null); r.readAsDataURL(f);
     }))).then(results=>{
       const clean = results.filter(Boolean);
-      preview.innerHTML = clean.map(src=>`<img src="${src}" alt="" />`).join('');
+      preview.innerHTML = clean.map(src=>`<img class="${isHeroPhoto?'hero-photo':''}" src="${src}" alt="" />`).join('');
       onData(multiple ? clean : clean[0]);
       toast(multiple ? `Загружено: ${clean.length}` : 'Файл загружен','ok',1600);
     });
@@ -2019,26 +2084,36 @@ function setupFileDrop(dropId, inputId, previewId, multiple, onData){
 }
 setupFileDrop('#cover-drop','#c-cover','#cover-preview',false,(d)=>{ state.coverData = d; });
 setupFileDrop('#pages-drop','#c-pages','#pages-preview',true,(d)=>{ state.pagesData = d; });
-setupFileDrop('#hero-photo-drop','#h-photo','#hero-photo-preview',false,(d)=>{ state.heroPhotoData = d; });
+setupFileDrop('#hero-photo-drop','#h-photo','#hero-photo-preview',false,(d)=>{ state.heroPhotoData = d; }, true);
 
-/* HEROES PICKER */
-function updateComicsPicker(){
-  const picker = $('#comic-heroes-picker'); if (!picker) return;
-  const heroes = getAllHeroesArray().sort((a,b)=>(a.name||'').localeCompare(b.name||'','ru'));
-  if (!heroes.length){
-    picker.innerHTML = `<div style="grid-column:1/-1;color:var(--muted);font-size:12.5px;text-align:center;padding:8px">Сначала создай супергероев</div>`;
+/* HERO COMICS PICKER */
+function renderHeroComicsPicker(){
+  const picker = $('#hero-comics-picker'); if (!picker) return;
+  const comics = getAllComicsArray().sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  if (!comics.length){
+    picker.innerHTML = `<div style="grid-column:1/-1;color:var(--muted);font-size:12.5px;text-align:center;padding:8px">Сначала создайте комиксы</div>`;
     return;
   }
-  picker.innerHTML = heroes.map(h=>`
-    <label>
-      <input type="checkbox" value="${h.id}" ${state.selectedHeroIds.includes(h.id)?'checked':''} />
-      ${h.photoUrl ? `<img src="${h.photoUrl}" alt="" />` : `<div style="width:24px;height:24px;border-radius:50%;background:var(--grad-live);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:11px;font-family:'Space Grotesk'">${escapeHTML((h.name||'?').slice(0,1).toUpperCase())}</div>`}
-      <span>${escapeHTML(h.name||'—')}</span>
-    </label>
-  `).join('');
-  picker.querySelectorAll('input[type=checkbox]').forEach(cb=>{
-    cb.addEventListener('change',()=>{
-      state.selectedHeroIds = Array.from(picker.querySelectorAll('input:checked')).map(i=>i.value);
+  picker.innerHTML = comics.map(c=>{
+    const cover = c.coverUrl || (c.pages && c.pages[0]) || '';
+    const checked = state.selectedHeroComicIds.includes(c.id) ? 'checked' : '';
+    const thumbContent = cover
+      ? `<img src="${cover}" alt="" />`
+      : `★`;
+    return `<label>
+      <input type="checkbox" value="${c.id}" ${checked} />
+      <div class="cm-thumb">${thumbContent}</div>
+      <div class="cm-name">${escapeHTML(c.title || '—')}</div>
+    </label>`;
+  }).join('');
+  picker.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      const id = cb.value;
+      if (cb.checked){
+        if (!state.selectedHeroComicIds.includes(id)) state.selectedHeroComicIds.push(id);
+      } else {
+        state.selectedHeroComicIds = state.selectedHeroComicIds.filter(x=>x!==id);
+      }
     });
   });
 }
@@ -2051,8 +2126,7 @@ $('#comic-save')?.addEventListener('click', async ()=>{
   if (!title){ toast('Введите название','err'); return; }
   const pages = state.pagesData || [];
   const cover = state.coverData || (pages[0] || '');
-  const heroIds = Array.from($('#comic-heroes-picker').querySelectorAll('input:checked')).map(i=>i.value);
-  const payload = {title, description:desc, backstory, coverUrl:cover, pages, heroes:heroIds, createdAt:Date.now(), views:0};
+  const payload = {title, description:desc, backstory, coverUrl:cover, pages, createdAt:Date.now(), views:0};
   if (state.editingComicId){
     payload.views = (state.comics[state.editingComicId]?.views) || 0;
     payload.createdAt = (state.comics[state.editingComicId]?.createdAt) || Date.now();
@@ -2088,14 +2162,13 @@ $('#comic-save')?.addEventListener('click', async ()=>{
 $('#comic-cancel')?.addEventListener('click', resetComicForm);
 
 function resetComicForm(){
-  state.editingComicId = null; state.coverData = null; state.pagesData = []; state.selectedHeroIds = [];
+  state.editingComicId = null; state.coverData = null; state.pagesData = [];
   $('#c-title').value = ''; $('#c-desc').value = ''; $('#c-backstory').value = '';
   $('#c-cover').value = ''; $('#c-pages').value = '';
   $('#cover-preview').innerHTML = ''; $('#pages-preview').innerHTML = '';
   $('#comic-form-title').textContent = 'Новый комикс';
   $('#comic-save').textContent = 'Опубликовать';
   $('#comic-cancel').style.display = 'none';
-  updateComicsPicker();
 }
 
 function editComic(id){
@@ -2104,26 +2177,26 @@ function editComic(id){
   $('#c-title').value = c.title || '';
   $('#c-desc').value = c.description || '';
   $('#c-backstory').value = c.backstory || '';
-  state.selectedHeroIds = Array.isArray(c.heroes) ? c.heroes.slice() : [];
   $('#cover-preview').innerHTML = c.coverUrl ? `<img src="${c.coverUrl}" />` : '';
   $('#pages-preview').innerHTML = (c.pages||[]).slice(0,8).map(p=>`<img src="${p}" />`).join('');
   $('#comic-form-title').textContent = 'Редактирование комикса';
   $('#comic-save').textContent = 'Сохранить';
   $('#comic-cancel').style.display = '';
-  updateComicsPicker();
   $('#comics-create-view').style.display=''; $('#comics-edit-view').style.display='none';
   $$('.admin-tab').forEach(t=>t.classList.toggle('is-active', t.dataset.admintab==='comics'));
   $$('.admin-section').forEach(s=>s.classList.toggle('is-active', s.dataset.adminsection==='comics'));
 }
 
-/* SAVE HERO */
+/* SAVE HERO — теперь с comics */
 $('#hero-save')?.addEventListener('click', async ()=>{
   const name = $('#h-name').value.trim();
   const desc = $('#h-desc').value.trim();
   if (!name){ toast('Введите имя','err'); return; }
-  const payload = {name, description:desc, photoUrl: state.heroPhotoData || '', createdAt:Date.now()};
+  const comics = Array.from($('#hero-comics-picker').querySelectorAll('input:checked')).map(i=>i.value);
+  const payload = {name, description:desc, photoUrl: state.heroPhotoData || '', comics, createdAt:Date.now()};
   if (state.editingHeroId){
     payload.createdAt = (state.heroes[state.editingHeroId]?.createdAt) || Date.now();
+    if (!state.heroPhotoData) payload.photoUrl = state.heroes[state.editingHeroId]?.photoUrl || '';
   }
   const btn = $('#hero-save'); btn.classList.add('is-loading');
   const orig = btn.textContent; btn.textContent = 'Сохраняем';
@@ -2153,12 +2226,13 @@ $('#hero-save')?.addEventListener('click', async ()=>{
 $('#hero-cancel')?.addEventListener('click', resetHeroForm);
 
 function resetHeroForm(){
-  state.editingHeroId = null; state.heroPhotoData = null;
+  state.editingHeroId = null; state.heroPhotoData = null; state.selectedHeroComicIds = [];
   $('#h-name').value = ''; $('#h-desc').value = ''; $('#h-photo').value = '';
   $('#hero-photo-preview').innerHTML = '';
   $('#hero-form-title').textContent = 'Новый супергерой';
   $('#hero-save').textContent = 'Опубликовать';
   $('#hero-cancel').style.display = 'none';
+  renderHeroComicsPicker();
 }
 
 function editHero(id){
@@ -2166,10 +2240,12 @@ function editHero(id){
   state.editingHeroId = id;
   $('#h-name').value = h.name || '';
   $('#h-desc').value = h.description || '';
-  $('#hero-photo-preview').innerHTML = h.photoUrl ? `<img src="${h.photoUrl}" />` : '';
+  $('#hero-photo-preview').innerHTML = h.photoUrl ? `<img class="hero-photo" src="${h.photoUrl}" />` : '';
+  state.selectedHeroComicIds = Array.isArray(h.comics) ? h.comics.slice() : [];
   $('#hero-form-title').textContent = 'Редактирование';
   $('#hero-save').textContent = 'Сохранить';
   $('#hero-cancel').style.display = '';
+  renderHeroComicsPicker();
   $('#heroes-create-view').style.display=''; $('#heroes-edit-view').style.display='none';
   $$('.admin-tab').forEach(t=>t.classList.toggle('is-active', t.dataset.admintab==='heroes'));
   $$('.admin-section').forEach(s=>s.classList.toggle('is-active', s.dataset.adminsection==='heroes'));
@@ -2254,20 +2330,22 @@ function renderAdminHeroesList(){
   const list = $('#admin-heroes-list'); if (!list) return;
   const arr = getAllHeroesArray();
   if (!arr.length) list.innerHTML = `<div class="empty-state" style="padding:20px"><p>Пока нет супергероев</p></div>`;
-  else list.innerHTML = arr.map(h=>`
-    <div class="admin-list-item hero-item">
+  else list.innerHTML = arr.map(h=>{
+    const comicsCount = Array.isArray(h.comics) ? h.comics.length : 0;
+    return `<div class="admin-list-item hero-item">
       ${h.photoUrl ? `<img src="${h.photoUrl}" alt="" />` : `<div style="width:44px;height:44px;border-radius:50%;background:var(--grad-live);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk';font-weight:600;font-size:15px;">${escapeHTML((h.name||'?').slice(0,1).toUpperCase())}</div>`}
-      <div class="info"><strong>${escapeHTML(h.name || '—')}</strong><span>${escapeHTML((h.description||'').slice(0,40) || '—')}</span></div>
+      <div class="info"><strong>${escapeHTML(h.name || '—')}</strong><span>📚 ${comicsCount} ${comicsCount===1?'комикс':comicsCount<5?'комикса':'комиксов'}</span></div>
       <div class="act">
         <button type="button" class="icon-btn" data-edit-hero="${h.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5l4 4-11 11H5.5v-4z"/></svg></button>
         <button type="button" class="icon-btn danger" data-delete-hero="${h.id}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg></button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
   list.onclick = (e)=>{
     const ed = e.target.closest('[data-edit-hero]');
     const del = e.target.closest('[data-delete-hero]');
     if (ed) editHero(ed.dataset.editHero);
-    if (del) confirmDialog('Удалить этого супергероя? Комиксы останутся, но связь с героем пропадёт.', ()=>deleteHero(del.dataset.deleteHero));
+    if (del) confirmDialog('Удалить этого супергероя?', ()=>deleteHero(del.dataset.deleteHero));
   };
 }
 
@@ -2294,9 +2372,7 @@ function updateAdminStats(){
   $('#stat-users').textContent = fmt(Object.keys(LOCAL_DB.users || {}).length);
 }
 
-/* ============================================================
-   LIGHTBOX (zoom + pan + arrows)
-   ============================================================ */
+/* LIGHTBOX */
 const lightbox = $('#lightbox');
 const lbImg = $('#lb-img');
 const lbStage = $('#lb-stage');
@@ -2341,25 +2417,13 @@ function applyTransform(){
   lbImg.style.transform = `translate(${lb.tx}px, ${lb.ty}px) scale(${lb.zoom})`;
   lbZoomVal.textContent = Math.round(lb.zoom * 100) + '%';
 }
-function setZoom(z, centerX, centerY){
+function setZoom(z){
   const lb = state.lightbox;
-  const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, z));
-  if (centerX !== undefined && centerY !== undefined){
-    // zoom around point
-    const rect = lbImg.getBoundingClientRect();
-    const ox = centerX - (rect.left + rect.width/2);
-    const oy = centerY - (rect.top + rect.height/2);
-    const ratio = newZoom / lb.zoom;
-    lb.tx -= ox * (ratio - 1) / newZoom * newZoom;
-    lb.ty -= oy * (ratio - 1) / newZoom * newZoom;
-    lb.tx = lb.tx; // simple version: just zoom around center
-  }
-  lb.zoom = newZoom;
+  lb.zoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, z));
   if (lb.zoom === 1){ lb.tx = 0; lb.ty = 0; }
   applyTransform();
 }
 
-// Click on reader page
 document.body.addEventListener('click',(e)=>{
   const rp = e.target.closest('.reader-page');
   if (rp && state.route === 'read'){
@@ -2375,20 +2439,14 @@ $('#lb-zoom-in')?.addEventListener('click', ()=> setZoom(state.lightbox.zoom + 0
 $('#lb-zoom-out')?.addEventListener('click', ()=> setZoom(state.lightbox.zoom - 0.5));
 $('#lb-reset')?.addEventListener('click', resetZoom);
 
-// click on stage (not on image controls) closes
-lbStage.addEventListener('click',(e)=>{
-  if (e.target === lbStage) closeLightbox();
-});
-
-// wheel zoom
+lbStage.addEventListener('click',(e)=>{ if (e.target === lbStage) closeLightbox(); });
 lbStage.addEventListener('wheel',(e)=>{
   if (!state.lightbox.isOpen) return;
   e.preventDefault();
   const delta = -e.deltaY > 0 ? 0.15 : -0.15;
-  setZoom(state.lightbox.zoom + delta, e.clientX, e.clientY);
+  setZoom(state.lightbox.zoom + delta);
 },{passive:false});
 
-// pointer drag / pan
 lbStage.addEventListener('pointerdown',(e)=>{
   if (!state.lightbox.isOpen) return;
   if (state.lightbox.zoom <= 1) return;
@@ -2406,7 +2464,7 @@ lbStage.addEventListener('pointermove',(e)=>{
   state.lightbox.ty = state.lightbox.startTy + (e.clientY - state.lightbox.dragStartY);
   applyTransform();
 });
-lbStage.addEventListener('pointerup',(e)=>{
+lbStage.addEventListener('pointerup',()=>{
   state.lightbox.isDragging = false;
   lbStage.classList.remove('is-panning');
 });
@@ -2415,7 +2473,6 @@ lbStage.addEventListener('pointercancel',()=>{
   lbStage.classList.remove('is-panning');
 });
 
-// touch pinch
 lbStage.addEventListener('touchstart',(e)=>{
   if (e.touches.length === 2){
     const dx = e.touches[0].clientX - e.touches[1].clientX;
@@ -2435,7 +2492,6 @@ lbStage.addEventListener('touchmove',(e)=>{
 },{passive:true});
 lbStage.addEventListener('touchend',()=>{ state.lightbox.lastPinchDist = 0; });
 
-// key nav in lightbox
 document.addEventListener('keydown',(e)=>{
   if (!state.lightbox.isOpen) return;
   if (e.key === 'ArrowLeft'){ if (state.lightbox.index>0){ state.lightbox.index--; resetZoom(); updateLightbox(); } }
@@ -2471,57 +2527,34 @@ window.STARLAND = { state, toast, renderAll };
 
 <!--
 ═══════════════════════════════════════════════════════════════
-📖 STARLAND v2.4 — ЧТО НОВОГО
+📖 STARLAND v2.5 — ЧТО ИСПРАВЛЕНО
 ═══════════════════════════════════════════════════════════════
 
-✅ 1. TELEGRAM ОБНОВЛЁН
-   Везде (шапка, мобильное меню, плавающая кнопка, футер, CTA)
-   ссылка изменена на https://t.me/starlandstudios
-   Текст контакта: @starlandstudios
+✅ 1. СВЯЗЬ ГЕРОЙ ↔ КОМИКС ПЕРЕЕХАЛА В ФОРМУ ГЕРОЯ
+   Было: в форме комикса чекбоксы героев
+   Стало: в форме супергероя чекбоксы комиксов (с обложками).
+   Хранится в heroes/{heroId}/comics = [comicId, ...]
+   На странице героя: heroes[id].comics → находим комиксы
+   И на карточке героя на публичной части — счётчик комиксов.
 
-✅ 2. КАТЕГОРИИ УБРАНЫ ПОЛНОСТЬЮ
-   • Удалены Marvel / DC / Фэнтези / Sci-Fi / Другое из каталога
-   • Удалены табы в каталоге — остался только поиск и сортировка
-   • Удалены карточки категорий с главной
-   • Удалена категория из формы создания комикса
+✅ 2. ШАПКА НЕ УПЛЫВАЕТ ЗА ЭКРАН
+   Уменьшены все размеры на мобиле:
+   • Nav height: clamp(74px,8vw,104px) → на <768px 66px → <480px 60px
+   • Логотип: 250px → 220 (1200px) → 190 (1024) → 160 (768) → 130 (480)
+   • TG-иконка: 44px → 38px (768) → СКРЫТА (480)
+   • Avatar: 44px → 38px (768)
+   • Burger: 44px → 38px (768)
+   • Кнопка "Войти": на <480 СКРЫТА (вход через бургер)
+   • Уменьшены gap'ы: 10px → 6px (768) → 4px (480)
 
-✅ 3. ДВА РАЗДЕЛА: КОМИКСЫ и СУПЕРГЕРОИ
-   • «Комиксы» (#catalog) — все комиксы (как раньше раздел «Все»)
-   • «Супергерои» (#heroes) — новая галерея персонажей
-   • Пункты меню обновлены: Главная | Комиксы | Супергерои | О нас | Контакты
-
-✅ 4. СИСТЕМА СУПЕРГЕРОЕВ
-   • Админ создаёт героя: Имя + Описание + Фото
-   • Публичная сетка героев на #heroes
-   • Клик на карточку → детальная страница #hero/{id}
-   • Детальная: слева фото, справа имя + описание
-   • Снизу — горизонтальная карусель комиксов, где участвует герой
-   • Под каждой обложкой название. Клик → переход в комикс
-   • Превью 4 героев на главной
-
-✅ 5. ПРЕДЫСТОРИЯ КОМИКСА
-   • Новое поле «Предыстория» в форме создания комикса
-   • Показывается в читалке над страницами с синей полосой слева
-   • Поддерживает переносы строк
-
-✅ 6. СВЯЗЬ ГЕРОЙ ↔ КОМИКС
-   • В форме комикса — чекбоксы всех героев с фото
-   • Мультивыбор. Сохраняется в поле heroes: [id1, id2, ...]
-   • На странице героя показываются только его комиксы
-
-✅ 7. LIGHTBOX В ЧИТАЛКЕ
-   • Клик на страницу → полный экран
-   • Зум: колёсико мыши, pinch-жесты, кнопки +/−
-   • Pan: перетаскивание при zoom > 1
-   • Стрелки ←/→ для перелистывания страниц
-   • Esc / клик по фону — закрыть
-   • Клавиатура: ←/→, +/-, 0 (сброс)
-   • Счётчик страниц «X / Y» сверху
-
-✅ 8. ЛОГОТИП УВЕЛИЧЕН ЕЩЁ БОЛЬШЕ
-   .logo-wrap: width clamp(180px, 26vw, 290px), height clamp(72px, 9vw, 100px)
-   Авто-обрезка прозрачных полей (max scale 3.5 → 4.0)
-   Шапка выше: clamp(84px, 10vw, 116px)
+✅ 3. ЛОГОТИП — ФИНАЛЬНОЕ УВЕЛИЧЕНИЕ
+   • Убран crossorigin="anonymous" — теперь авто-обрезка
+     работает локально без CORS-ошибок на GitHub Pages
+   • Fallback scale 1.15 (если JS-обрезка не сработает,
+     лого всё равно увеличится на 15%)
+   • Лимит авто-обрезки увеличен: 4.0 → 4.5
+   • Жёсткие размеры вместо clamp-процентов (не "сжимаются"
+     от контента)
 
 ═══════════════════════════════════════════════════════════════
 🔐 АДМИН-АККАУНТ
